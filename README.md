@@ -2,10 +2,6 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-https://vastagon.github.io/LinkWord/
-
-  "homepage": "https://link-word-lm6qsg5dx-vastagon.vercel.app/",
-
 
 ## Available Scripts
 
