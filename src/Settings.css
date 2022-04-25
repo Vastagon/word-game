@@ -1,0 +1,75 @@
+.settings{
+    position: absolute;
+    width: 30%;
+    left: 35%;
+    height: 35%;
+    top: 30%;
+    background-color: #F8F8FF;
+    color: black;
+    text-align: center;
+    z-index: 20;
+
+    border-width: 1px;
+    border-color: black;
+    border-style: solid;
+
+
+    animation-name: settings-fade-in;
+    animation-duration: .7s;
+}
+.feedback, .community{
+    display: flex;
+    font-size: 1.6rem;
+    margin-left: 4%;
+    margin-top: 5%;
+    gap: 10%;
+}
+.cross:after{
+    content: "\d7";
+    color: black;
+    position: absolute;
+    right: 2%;
+    top: 2%;
+}
+.cross:hover{
+    cursor: pointer;
+}
+a{
+    height: 1rem;
+    right: 4%;
+    position: absolute;
+}
+p{
+    margin: 0;
+}
+h4{
+    margin-top: 2%;
+    font-size: 1.6rem;
+}
+
+@keyframes settings-fade-in {
+    from{
+        top: 40%;
+        opacity: 0;
+
+    }
+    to{
+        top: 30%;
+        opacity: 1;
+    }
+}
+
+
+
+@media screen and (max-width: 800px) {
+    .settings{
+        position: absolute;
+        width: 80%;
+        left: 10%;
+        height: 35%;
+        top: 30%;
+    }
+    .feedback, .community{
+        font-size: 1.1rem;
+    }
+}

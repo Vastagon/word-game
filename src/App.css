@@ -1,0 +1,498 @@
+@import url('https://fonts.googleapis.com/css2?family=Bellefair&display=swap');
+
+:root{
+  background-color: #141414;
+  color: white;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  height: 100vh;
+}
+#text-input{
+  position: absolute;
+  top: -100vh;
+}
+*{
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+button{
+  color: black;
+}
+.App{
+  left: 0;
+}
+
+.navbar{
+  background-color: #121213;
+  top: 0;
+  left: 0;
+  position: fixed;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  height: 10%;
+  width: 100%;
+  border-bottom: 2px;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-color: gray;
+  border-style: solid;
+  z-index: 5;
+}
+.question-mark:hover, .cog:hover, .stats-icon:hover{
+  cursor: pointer;
+}
+.nav-left, .nav-right{
+  width: 30%;
+  display: flex;
+  z-index: 10;
+}
+.nav-right{
+  position: absolute;
+  right: 4%;
+  width: auto;
+}
+.nav-left{
+  position: absolute;
+  left: 2%;
+}
+.question-mark{
+  background-color: white;
+  border-radius: 100%;
+  border-width: 1px;
+  border-style: solid;
+  margin-left: 4%;
+  height: 6vh;
+}
+.cog{
+  background-color: black;
+  border-radius: 100%;
+  border-width: 1px;
+  border-style: none;
+  height: 6.5vh;
+}
+.stats-icon{
+  display: flex;
+  transform: rotate(180deg);
+  margin-left: 10%;
+
+}
+.menu{
+  height: 6vh;
+}
+.bar{
+  position: relative;
+  border-width: 2px;
+  border-color: white;
+  border-style: solid;
+}
+.bar3{
+  width: 1.3vw;
+  height: 4vh;
+}
+.bar2{
+  width: 1.3vw;
+  height: 6vh;
+}
+.bar1{
+  width: 1.3vw;
+  height: 3vh;
+}
+.linkword{
+  position: relative;
+  width: 100vw;
+  text-align: center;
+  margin: 0;
+  line-height: 10vh;
+}
+.tries{
+  position: relative;
+  width: 100%;
+  margin-top: 1%;
+  text-align: center;
+  font-size: 1.3rem;
+}
+.current-word{
+  border: 2px solid #3A5FCD !important;
+}
+.red-word{
+  border-color: red !important;
+}
+.green-word{
+  border-color: green !important;
+}
+.words-container{
+  width: 70%;
+  margin-left: 15%;
+  /* text-align: center; */
+  margin-top: 17vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.keyboard{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 7%;
+  display: none;
+}
+.keyboard-row{
+  margin-top: 1%;
+}
+.special-keyboard{
+  height: 4.7vh !important;
+  width: 5vw !important;
+  font-size: 1rem !important;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+.keyboard-key{
+  background-color: white;
+  font-family: "Bellefair", serif;
+  border-style: none;
+  text-align: center;
+  width: 5vh;
+  height: 5vh;
+  line-height: 5vh;
+  margin-left: 6px;
+  font-size: 1.5rem;
+  border-color: gray;
+  color: black;
+  padding: 0;
+  margin: 0;
+  border-radius: 5px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+}
+
+.incorrect-word{
+  margin: 0;
+}
+.first-incorrect-word, .second-incorrect-word{
+  position: absolute;
+  top: 20%;
+  right: 12.5%;
+  /* font-size: 2.8rem; */
+}
+.first-incorrect-word > h4, .second-incorrect-word > h4{
+  margin: 0;
+  font-size: 2.4rem;
+
+}
+.second-incorrect-word{
+  top: 37%;
+}
+.wrong-guess{
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.single-letter{
+  border-color: gray;
+  border-width: 2px;
+  border-style: solid;
+  /* padding: .0% 3.333333333%; */
+  padding: 0;
+  text-align: center;
+  margin: 0;
+  width: 3.333333333vw;
+  height: 6vh;
+  content: " ";
+}
+.single-word{
+  border-color: gray;
+  border-width: 2px;
+  border-style: solid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40vw;
+  height: 6vh;
+  line-height: 6vh;
+  margin-top: 1vh;
+  /* padding-left: 2rem !important; */
+}
+.single-word:hover{
+  cursor: pointer;
+}
+.first-word:hover, .last-word:hover{
+  cursor: unset;
+}
+.win-page{
+  width: 80%;
+  margin-left: 3%;
+  background-color: #F8F8FF;
+  color: black;
+  position: absolute;
+  z-index: 5;
+  height: 80vh;
+  top: 15%;
+  z-index: 2;
+  text-align: center;
+  animation-name: fade-in;
+  animation-duration: .7s;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+.win-page-bottom{
+  display: flex;
+  position: absolute;
+  bottom: 2%;
+  right: 0%;
+  width: 100%;
+}
+.next-puzzle{
+  position: absolute;
+  left: 4%;
+  bottom: 1vh;
+}
+.copy-button{
+  padding: 10px 5px;
+  display: flex;
+  height: 150%;
+}
+.copy-image{
+  height: 2vh;
+  padding-left: .2rem;
+}
+.media-sharing{
+  position: absolute;
+  right: 1rem;
+  bottom: 0;
+  width: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.stats-container-row{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 5%;
+}
+
+.stats-element{
+  margin-left: 4%;
+  margin-right: 4%;
+}
+.bar-graph{
+  height: 25%;
+}
+.timer-and-button{
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  left: 0;
+  top: 16.5%;
+  width: 30%;
+  justify-content: center;
+  align-items: center;
+}
+.timer{
+  /* position: fixed;
+  top: 20%;
+  left: 10%; */
+  font-size: 4rem;
+}
+.start-button{
+  padding: 6% 14%;
+
+}
+
+
+@keyframes fade-in {
+  0% {
+    opacity:0;
+    top: 25%;
+  }
+  100%{
+    opacity:1;
+    top: 15%;
+  }
+}
+
+
+
+
+
+@media screen and (max-width: 1100px) {
+  .words-container{
+    margin-top: 15%;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  #text-input{
+    display: none;
+  }
+  .keyboard{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 7%;
+  }
+  .keyboard-key{
+    width: 4.2vh;
+    height: 4.2vh;
+    line-height: 4.2vh;
+    padding: 0;
+    margin-left: 6px;
+    font-size: .8rem;
+  }
+  .special-keyboard{
+    height: 4.2vh !important;
+    width: 6vh !important;
+    font-size: .8rem !important;
+  }
+  .words-container{
+    margin-top: 20%;
+  }
+  .media-sharing{
+    right: 3rem;
+  }
+  
+}
+@media screen and (max-width: 500px) {
+  .linkword{
+    font-size: 2rem;
+  }
+  .keyboard{
+    margin-top: 0;
+  }
+  .keyboard-row{
+    margin-top: 5%;
+  }
+  .nav-right{
+    right: 4%;
+  }
+  .words-container{
+    margin-top: 40%;
+  }
+  .keyboard-key{
+    width: 3.7vh;
+    height: 3.7vh;
+    line-height: 3.7vh;
+    padding: 0;
+    margin-left: 6px;
+    font-size: .8rem;
+  }
+  .special-keyboard{
+    height: 3.7vh !important;
+    width: 6vh !important;
+    font-size: .8rem !important;
+  }
+  .single-word{
+    width: 85vw;
+    height: 6vh;
+    line-height: 6vh;
+    margin-top: 1vh;
+    font-size: .8rem;  
+  }
+  .single-word > div{
+    border-color: gray;
+    border-width: 2px;
+    border-style: solid;
+    /* padding: .0% 3.333333333%; */
+    padding: 0;
+    text-align: center;
+    margin: 0;
+    width: 6.8vw;
+    height: 6vh;
+    content: " ";
+  }
+  .timer-and-button{
+    left: 35%;
+    top: 10.5%;
+    width: 30%;  
+  }
+  .start-button{
+    width: 80vw;
+    height: 20vh;
+  }
+  .next-puzzle{
+    position: absolute;
+    left: 4%;
+    bottom: .5vh;
+    font-size: .8rem;
+  }
+  .tries{
+    /* top: 52%; */
+    position: relative;
+    width: 100vw;
+    padding-top: 2%;
+    font-size: 1.2rem;
+  }
+  .first-incorrect-word, .second-incorrect-word{
+    position: relative;
+    text-align: center;
+    width: 100vw;
+    left: 0;
+    margin-top: 10%;
+  }
+  .first-incorrect-word > h4, .second-incorrect-word > h4{
+    font-size: 2rem;
+    width: 100%;
+  }
+  .second-incorrect-word{
+    top: 95%;
+  }
+  .nav-right{
+    right: 5%;
+  }
+  .stats-icon{
+
+  }
+  .bar{
+    width: 2.5vw;
+  }
+
+
+}
+@media screen and (max-width: 380px) {
+  .tries{
+    margin-top: 1%;
+  }
+}
+@media screen and (max-width: 350px) {
+  .linkword{
+    font-size: 1.2rem;
+  }
+  .words-container{
+    margin-top: 40%;
+  }
+  .keyboard-key{
+    width: 3vh;
+    height: 3vh;
+    line-height: 3vh;
+    margin-left: 6px;
+    font-size: .8rem;
+  }
+  .special-keyboard{
+    height: 3vh !important;
+    width: 5vh !important;
+    font-size: .8rem !important;
+  }
+  .tries{
+    top: 46.5%;
+  }
+  .timer{
+    font-size: 2rem;
+  }
+  .bar{
+    width: 3vw;
+  }
+}
