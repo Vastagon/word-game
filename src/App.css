@@ -134,7 +134,9 @@ button{
   align-items: center;
   justify-content: center;
 }
-
+.share-button{
+  display: none !important;
+}
 .keyboard{
   position: relative;
   display: flex;
@@ -249,6 +251,8 @@ button{
   display: flex;
   position: absolute;
   bottom: 2%;
+  padding-top: 10px;
+  padding-bottom: 10px;
   right: 0%;
   width: 100%;
 }
@@ -333,7 +337,16 @@ button{
   }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 850px) {
+  .copy-button{
+    margin-right: 5%;
+  }
+  .share-button{
+    display: flex !important;
+  }
+  .react-share-buttons{
+    display: none;
+  }
   #text-input{
     display: none;
   }
@@ -362,11 +375,14 @@ button{
     margin-top: 20%;
   }
   .media-sharing{
-    right: 3rem;
+    right: 1%;
   }
   
 }
 @media screen and (max-width: 500px) {
+  .media-sharing{
+    right: 10%;
+  }
   .linkword{
     font-size: 2rem;
   }
@@ -453,21 +469,23 @@ button{
   .nav-right{
     right: 5%;
   }
-  .stats-icon{
-
-  }
   .bar{
     width: 2.5vw;
   }
-
 
 }
 @media screen and (max-width: 380px) {
   .tries{
     margin-top: 1%;
   }
+  .media-sharing{
+    right: 12%;
+  }
 }
 @media screen and (max-width: 350px) {
+  .media-sharing{
+    right: 15%;
+  }
   .linkword{
     font-size: 1.2rem;
   }

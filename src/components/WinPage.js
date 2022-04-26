@@ -111,15 +111,24 @@ export default function WinPage({incorrectWordsLine1, incorrectWordsLine2, linkW
     let secondsLeft = 60 - parseInt(d.substring(6,8))
 
     ///String copied when the copy button is pressed
-    let shareString = `
-    \t #LinkWord ${linkWordDay?.toString()} \n 
-    \t🔗 \n
-    \t${checkmark}Line One ${incorrectWordsLine1.length === 0 ? 1 : incorrectWordsLine1.length}/3\n
-    \t${checkmark2}Line Two ${incorrectWordsLine2.length === 0 ? 1 : incorrectWordsLine2.length}/3\n
-    \t🔗 \n
-    \t${currentMinutes.toString()}:${currentSeconds.toString()} \n
-    `
+    let shareString = `#LinkWord ${linkWordDay?.toString()}\n🔗\n${checkmark}Line One ${incorrectWordsLine1.length === 0 ? 1 : incorrectWordsLine1.length}/3\n${checkmark2}Line Two ${incorrectWordsLine2.length === 0 ? 1 : incorrectWordsLine2.length}/3\n🔗\n${currentMinutes.toString()}:${currentSeconds.toString()}\n`
 
+    function ShareText(){
+        if (navigator.share) {
+            navigator
+            .share({
+                title: `#LinkWord ${linkWordDay?.toString()}`,
+                text: `Check out `,
+                url: document.location.href,
+            })
+            .then(() => {
+                console.log('Successfully shared');
+            })
+            .catch(error => {
+                console.error('Something went wrong sharing the blog', error);
+            });
+        }            
+    }
     function CopyText(){
         navigator.clipboard.writeText(shareString)
         alert("Copied Results to Clipboard")
@@ -131,10 +140,10 @@ export default function WinPage({incorrectWordsLine1, incorrectWordsLine2, linkW
 
     let countdown = fixShownTime(hoursLeft, minutesLeft, secondsLeft)
 
-
+///localStorage.wordLinkHasWonToday === JSON.stringify(wordDB?.wordArray) for if statement
     return(
         <div className="win-page">
-            {localStorage.wordLinkHasWonToday !== JSON.stringify(wordDB?.wordArray) ? <div onClick={removePage} className='cross'></div> : null}
+            <div onClick={removePage} className='cross'></div>
             <h4>Statistics</h4>
             <div className="stats-container">
                 <div className="stats-container-row">
@@ -176,29 +185,25 @@ export default function WinPage({incorrectWordsLine1, incorrectWordsLine2, linkW
             </div>
 
             <div className='media-sharing'>
-                <TwitterShareButton
-                url="linkwordgame.com"
-                title={`
-                \t #LinkWord ${linkWordDay?.toString()} \n 
-                \t🔗 \n
-                \t${checkmark}Line One ${incorrectWordsLine1.length === 0 ? 1 : incorrectWordsLine1.length}/3\n
-                \t${checkmark2}Line Two ${incorrectWordsLine2.length === 0 ? 1 : incorrectWordsLine2.length}/3\n
-                \t🔗 \n
-                \t${currentMinutes.toString()}:${currentSeconds.toString()} \n
-                `}
-                className="Demo__some-network__share-button"
-                >
-                    <TwitterIcon size={windowWidth <= 500 ? 32:  48} round />
-                </TwitterShareButton>
+                <div className='react-share-buttons'>
+                    <TwitterShareButton
+                    url="linkwordgame.com"
+                    title={`#LinkWord ${linkWordDay?.toString()}\n🔗\n${checkmark}Line One ${incorrectWordsLine1.length === 0 ? 1 : incorrectWordsLine1.length}/3\n${checkmark2}Line Two ${incorrectWordsLine2.length === 0 ? 1 : incorrectWordsLine2.length}/3\n🔗\n${currentMinutes.toString()}:${currentSeconds.toString()}\n`}
+                    className="a"
+                    >
+                        <TwitterIcon size={windowWidth <= 500 ? 32:  48} round />
+                    </TwitterShareButton>
 
-                <FacebookShareButton
-                url="linkwordgame.com"
-                    description={``}
-                >
-                    <FacebookIcon size={windowWidth <= 500 ? 32:  48} round />
-                </FacebookShareButton>
+                    <FacebookShareButton
+                    url="linkwordgame.com"
+                        description={``}
+                    >
+                        <FacebookIcon size={windowWidth <= 500 ? 32:  48} round />
+                    </FacebookShareButton>                    
+                </div>
 
-                <button className='copy-button' onClick={CopyText}>Copy <img className='copy-image' src="https://cdn0.iconfinder.com/data/icons/simple-lines-part-3/32/Share_Send_Copy_Publish_Android-512.png" /></button>
+                <button className='share-button copy-button' onClick={ShareText}>Share<img className='copy-image' src="https://cdn0.iconfinder.com/data/icons/simple-lines-part-3/32/Share_Send_Copy_Publish_Android-512.png" /></button>
+                <button className='copy-button' onClick={CopyText}>Copy<img className='copy-image' src="https://cdn0.iconfinder.com/data/icons/simple-lines-part-3/32/Share_Send_Copy_Publish_Android-512.png" /></button>
             </div>
         </div>
 

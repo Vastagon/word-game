@@ -24,7 +24,9 @@ function App() {
   ///array for displaying previous tries
   const [prevWordArray, setPrevWordArray] = useState([])
   ///Array of middle words that will be checked
+
   const [wordDBChecker, setWordDBChecker] = useState([])
+  
   const [showWinPage, setShowWinPage] = useState(false)
   const [guessingContainer, setGuessingContainer] = useState()
 
@@ -52,6 +54,10 @@ function App() {
   const [clickRowOne, setClickRowOne] = useState(false)
   const [clickRowTwo, setClickRowTwo] = useState(false)
 
+  const [showIncorrectWordsLine1, setShowIncorrectWordsLine1] = useState([]) 
+  const [showIncorrectWordsLine2, setShowIncorrectWordsLine2] = useState([])
+
+
   const [linkWordDay, setLinkWordDay] = useState()
 
   ///on page load
@@ -72,6 +78,9 @@ function App() {
       setLastWord(res?.data.wordArray[res?.data.wordArray.length-1]?.toUpperCase())
 
       ///Init local storage
+      if (localStorage.getItem("wordLinkHasWonToday") === null) {
+        localStorage.wordLinkHasWonToday = "[]"
+      }      
       if (localStorage.getItem("wordLinkTotalPlays") === null) {
         localStorage.wordLinkTotalPlays = 0
       }
@@ -99,8 +108,13 @@ function App() {
       if (localStorage.getItem("wordLinkBottomLine") === null) {
         localStorage.wordLinkBottomLine = "[0,0,0,0]"
       }
+      if(localStorage.wordLinkIncorrectLine1 === undefined){
+        localStorage.wordLinkIncorrectLine1 = "[]"
+      }
+      if(localStorage.wordLinkIncorrectLine2 === undefined){
+        localStorage.wordLinkIncorrectLine2 = "[]"
+      }
 
- 
       ///Local Storage Variables
       setLocalStorageState(() =>({
         totalPlays: parseInt(localStorage.wordLinkTotalPlays),
@@ -115,16 +129,19 @@ function App() {
       }))
 
 
+
+
       ///Checking if they've played today
       if(localStorage.wordLinkHasWonToday === JSON.stringify(res.data.wordArray)){
         setShowWinPage(true)
+      }else{
+        localStorage.wordLinkIncorrectLine2 = "[]"
+        localStorage.wordLinkIncorrectLine1 = "[]"
       }
-
       ///Creates checking array on page load
       let tempArray = [...res.data.wordArray]
       tempArray.splice(0,1)
-      tempArray.splice(wordDBChecker.length-1,1)
-      // console.log(tempArray)
+      tempArray.splice(2,1)
       setWordDBChecker(tempArray)
 
       ///Initialize guessing container
@@ -134,6 +151,43 @@ function App() {
 
     })
   }, [])
+
+  ///failed guesses every day
+  useEffect(() =>{
+    if(wordDB){
+      ///if puzzle has been completed
+      if(localStorage.wordLinkHasWonToday === JSON.stringify(wordDB?.wordArray)){
+        ///Incorrect words first line
+        setShowIncorrectWordsLine1(JSON.parse(localStorage.wordLinkIncorrectLine1).map(prev =>{
+          return <p className='wrong-guess' key={uuid()}>{prev}</p>
+        }))        
+
+        ///Incorrect words second line
+        setShowIncorrectWordsLine2(JSON.parse(localStorage.wordLinkIncorrectLine2).map(prev =>{
+          return <p className='wrong-guess' key={uuid()}>{prev}</p>
+        }))
+      }     
+    }
+  }, [wordDB])
+
+  ///if puzzle has not been completed
+  useEffect(() =>{
+    if(wordDB){
+      if(localStorage.wordLinkHasWonToday !== JSON.stringify(wordDB?.wordArray)){
+        setShowIncorrectWordsLine1(incorrectWordsLine1.map(prev =>{
+          return <p className='wrong-guess' key={uuid()}>{prev}</p>
+        }))    
+        localStorage.wordLinkIncorrectLine1 = JSON.stringify(incorrectWordsLine1)
+
+        setShowIncorrectWordsLine2(incorrectWordsLine2.map(prev =>{
+          return <p className='wrong-guess' key={uuid()}>{prev}</p>
+        }))      
+        localStorage.wordLinkIncorrectLine2 = JSON.stringify(incorrectWordsLine2)
+
+      }
+    } 
+
+  }, [JSON.stringify(incorrectWordsLine1), JSON.stringify(incorrectWordsLine2)])
 
   ///On row change
   useEffect(() =>{
@@ -293,6 +347,9 @@ function App() {
         if(winChecker === 1){
           winOrLose()
           setShowWinPage(true)
+          ///One play a day
+          localStorage.wordLinkHasWonToday = JSON.stringify(wordDB.wordArray)
+
 
           ///Top line
           let temp = localStorageState.topLine
@@ -370,6 +427,8 @@ function App() {
         ///Add show a new letter
         if(clickRowOne){
           incorrectWordsLine1.push(textInput)
+          
+
           if(!hasLineChanged){
             setTextInput(wordDBChecker[0].substring(0,incorrectWordsLine1.length))
             document.getElementById('text-input').value = wordDBChecker[0].substring(0,incorrectWordsLine1.length)
@@ -399,8 +458,6 @@ function App() {
             setFirstRowClicked(true)
             hasLineChanged = true
 
-
-
             setTextInput("")
             document.getElementById('text-input').value =""
           }else{
@@ -409,7 +466,6 @@ function App() {
             setFirstRowClicked(true)
             hasLineChanged = true
 
-
             setTextInput("")
             document.getElementById('text-input').value =""
           }
@@ -417,14 +473,13 @@ function App() {
           ///If the second tried row is being checked
           if(incorrectWordsLine1.length >= 3 || incorrectWordsLine2.length >= 3){
             winOrLose()
+
             setShowWinPage(true)
 
             setGraphData()
           }
         }
           setTries(1)
-          ///One play a day
-          localStorage.wordLinkHasWonToday = JSON.stringify(wordDB.wordArray)
       
           localStorage.wordLinkCurrentStreak = 0
           setLocalStorageState(prev => ({
@@ -434,7 +489,6 @@ function App() {
 
         }///End of failed line
       }
-
 
       ///Resets for next input
       if(document.getElementById('text-input')){
@@ -516,7 +570,6 @@ function App() {
 
   }
 
-
   ///graph arrays
   useEffect(() =>{
     if(localStorageState){
@@ -525,7 +578,82 @@ function App() {
     }
   }, [JSON.stringify(localStorageState?.bottomLine), JSON.stringify(localStorageState?.topLine)])
 
+  ///If the user has finished the puzzle for this day
+  if(localStorage.wordLinkHasWonToday === JSON.stringify(wordDB?.wordArray)){
+    return(
+      <div className="App" onClick={focusCursor}>
+      <Navbar setSettingsShown={setSettingsShown} setShowWinPage={setShowWinPage} setHowToPlayShown={setHowToPlayShown}/>
 
+      {/* All Clickables */}
+      {howToPlayShown ? <HowToPlay setHowToPlayShown={setHowToPlayShown}/> : null}
+      {showWinPage ? <WinPage incorrectWordsLine1={incorrectWordsLine1} incorrectWordsLine2={incorrectWordsLine2} linkWordDay={linkWordDay} wordDB={wordDB} setShowWinPage={setShowWinPage} localStorageState={localStorageState} /> : null}
+      {settingsShown ? <Settings setSettingsShown={setSettingsShown}/> : null}
+
+
+      <div className='words-container'>
+        {/* First Word */}
+        <div className='first-word'><LastWord lastWord={firstWord}/></div>
+
+        {/* Middle Words */}
+        <div className="first-word single-word">
+          <div className="single-letter">{wordDBChecker[0]?.substring(0,1).toUpperCase()}</div>
+          <div className="single-letter">{wordDBChecker[0]?.substring(1,2).toUpperCase()}</div>
+          <div className="single-letter">{wordDBChecker[0]?.substring(2,3).toUpperCase()}</div>
+          <div className="single-letter">{wordDBChecker[0]?.substring(3,4).toUpperCase()}</div>
+          <div className="single-letter">{wordDBChecker[0]?.substring(4,5).toUpperCase()}</div>
+          <div className="single-letter">{wordDBChecker[0]?.substring(5,6).toUpperCase()}</div>
+          <div className="single-letter">{wordDBChecker[0]?.substring(6,7).toUpperCase()}</div>
+          <div className="single-letter">{wordDBChecker[0]?.substring(7,8).toUpperCase()}</div>
+          <div className="single-letter">{wordDBChecker[0]?.substring(8,9).toUpperCase()}</div>
+          <div className="single-letter">{wordDBChecker[0]?.substring(9,10).toUpperCase()}</div>
+          <div className="single-letter">{wordDBChecker[0]?.substring(10,11).toUpperCase()}</div>
+          <div className="single-letter">{wordDBChecker[0]?.substring(11,12).toUpperCase()}</div>    
+        </div>
+        <div className="first-word single-word">
+          <div className="single-letter">{wordDBChecker[1]?.substring(0,1).toUpperCase()}</div>
+          <div className="single-letter">{wordDBChecker[1]?.substring(1,2).toUpperCase()}</div>
+          <div className="single-letter">{wordDBChecker[1]?.substring(2,3).toUpperCase()}</div>
+          <div className="single-letter">{wordDBChecker[1]?.substring(3,4).toUpperCase()}</div>
+          <div className="single-letter">{wordDBChecker[1]?.substring(4,5).toUpperCase()}</div>
+          <div className="single-letter">{wordDBChecker[1]?.substring(5,6).toUpperCase()}</div>
+          <div className="single-letter">{wordDBChecker[1]?.substring(6,7).toUpperCase()}</div>
+          <div className="single-letter">{wordDBChecker[1]?.substring(7,8).toUpperCase()}</div>
+          <div className="single-letter">{wordDBChecker[1]?.substring(8,9).toUpperCase()}</div>
+          <div className="single-letter">{wordDBChecker[1]?.substring(9,10).toUpperCase()}</div>
+          <div className="single-letter">{wordDBChecker[1]?.substring(10,11).toUpperCase()}</div>
+          <div className="single-letter">{wordDBChecker[1]?.substring(11,12).toUpperCase()}</div>    
+        </div>
+
+        {/* Last Word */}
+        <div className='last-word'><LastWord lastWord={lastWord}/></div>
+
+      </div>
+
+      <div className='tries'><p>Guess: {tries}/3</p></div>
+
+    <Keyboard formSubmit={formSubmit} textInput={textInput} setTextInput={setTextInput}/>
+
+    {/* Incorrect Words */}
+    <div className='first-incorrect-word'>
+        <h4>Line 1</h4>
+        {showIncorrectWordsLine1}
+          {/* {incorrectWordsLine1.map(prev =>{
+            return <p className='wrong-guess' key={uuid()}>{prev}</p>
+        })}         */}
+    </div>
+    <div className='second-incorrect-word'>
+      <h4>Line 2</h4>
+      {showIncorrectWordsLine2}
+      {/* {incorrectWordsLine2.map(prev =>{
+        return <p className='wrong-guess' key={uuid()}>{prev}</p>
+      })}       */}
+    </div>
+
+
+
+    </div>
+    )
+  }
 
   if(!wordDB) return null
 
@@ -564,15 +692,17 @@ function App() {
     {/* Incorrect Words */}
     <div className='first-incorrect-word'>
         <h4>Line 1</h4>
-          {incorrectWordsLine1.map(prev =>{
+        {showIncorrectWordsLine1}
+          {/* {incorrectWordsLine1.map(prev =>{
             return <p className='wrong-guess' key={uuid()}>{prev}</p>
-        })}        
+        })}         */}
     </div>
     <div className='second-incorrect-word'>
       <h4>Line 2</h4>
-      {incorrectWordsLine2.map(prev =>{
+      {showIncorrectWordsLine2}
+      {/* {incorrectWordsLine2.map(prev =>{
         return <p className='wrong-guess' key={uuid()}>{prev}</p>
-      })}      
+      })}       */}
     </div>
 
     <div className='timer-and-button'>
