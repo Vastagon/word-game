@@ -1,6 +1,8 @@
 import "../Settings.css"
+import { useState } from "react"
 
-export default function Settings({setSettingsShown}){
+export default function Settings({lightTheme, setLightTheme, setSettingsShown}){
+
     function removePage(){
         setSettingsShown(false)
     }
@@ -17,6 +19,20 @@ export default function Settings({setSettingsShown}){
                 <p>COMMUNITY</p>
                 <a target="_blank" href="https://twitter.com/LinkWordGame">TWITTER</a>
             </div>
+            <div>
+                <label className="switch">
+                    
+                    <input
+                        id ="checkbox_id"
+                        type="checkbox"
+                        checked={lightTheme}
+                        onChange={() => {setLightTheme(prev => !prev)}}
+                    />   
+                        <span className="slider"></span>
+                        <p className="slider-text">LIGHT THEME</p>
+                </label>                
+            </div>
+
         </div>
     )
 }

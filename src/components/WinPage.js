@@ -118,7 +118,7 @@ export default function WinPage({incorrectWordsLine1, incorrectWordsLine2, linkW
             navigator
             .share({
                 title: `#LinkWord ${linkWordDay?.toString()}`,
-                text: `Check out `,
+                text: shareString,
                 url: document.location.href,
             })
             .then(() => {
@@ -144,7 +144,7 @@ export default function WinPage({incorrectWordsLine1, incorrectWordsLine2, linkW
     return(
         <div className="win-page">
             <div onClick={removePage} className='cross'></div>
-            <h4>Statistics</h4>
+            <h4 className='statistics'>Statistics</h4>
             <div className="stats-container">
                 <div className="stats-container-row">
                     <div className="stats-element">

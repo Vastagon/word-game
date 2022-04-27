@@ -57,6 +57,7 @@ function App() {
   const [showIncorrectWordsLine1, setShowIncorrectWordsLine1] = useState([]) 
   const [showIncorrectWordsLine2, setShowIncorrectWordsLine2] = useState([])
 
+  const [lightTheme, setLightTheme] = useState(false)
 
   const [linkWordDay, setLinkWordDay] = useState()
 
@@ -146,7 +147,7 @@ function App() {
 
       ///Initialize guessing container
       setGuessingContainer(res.data.wordArray.slice(2).map((prev, index) =>{
-        return(<CurrentRow rowChangedState={rowChangedState} setPrevWordArray={setPrevWordArray} onClick2={clickRowTwoFunction} onClick={clickRowOneFunction} clickRowTwo={clickRowTwo} clickRowOne={clickRowOne} key={uuid()} id={index} prevWordArray={prevWordArray} heightCounter={heightCounter} textInput={textInput} className='single-word'></CurrentRow>)
+        return(<CurrentRow lightTheme={lightTheme} rowChangedState={rowChangedState} setPrevWordArray={setPrevWordArray} onClick2={clickRowTwoFunction} onClick={clickRowOneFunction} clickRowTwo={clickRowTwo} clickRowOne={clickRowOne} key={uuid()} id={index} prevWordArray={prevWordArray} heightCounter={heightCounter} textInput={textInput} className='single-word'></CurrentRow>)
       }))
 
     })
@@ -159,35 +160,35 @@ function App() {
       if(localStorage.wordLinkHasWonToday === JSON.stringify(wordDB?.wordArray)){
         ///Incorrect words first line
         setShowIncorrectWordsLine1(JSON.parse(localStorage.wordLinkIncorrectLine1).map(prev =>{
-          return <p className='wrong-guess' key={uuid()}>{prev}</p>
+          return <p className={lightTheme ? "light-text wrong-guess" : 'wrong-guess'} key={uuid()}>{prev}</p>
         }))        
 
         ///Incorrect words second line
         setShowIncorrectWordsLine2(JSON.parse(localStorage.wordLinkIncorrectLine2).map(prev =>{
-          return <p className='wrong-guess' key={uuid()}>{prev}</p>
+          return <p className={lightTheme ? "light-text wrong-guess" : 'wrong-guess'} key={uuid()}>{prev}</p>
         }))
       }     
     }
-  }, [wordDB])
+  }, [wordDB, lightTheme])
 
   ///if puzzle has not been completed
   useEffect(() =>{
     if(wordDB){
       if(localStorage.wordLinkHasWonToday !== JSON.stringify(wordDB?.wordArray)){
         setShowIncorrectWordsLine1(incorrectWordsLine1.map(prev =>{
-          return <p className='wrong-guess' key={uuid()}>{prev}</p>
+          return <p className={lightTheme ? "light-text wrong-guess" : 'wrong-guess'} key={uuid()}>{prev}</p>
         }))    
         localStorage.wordLinkIncorrectLine1 = JSON.stringify(incorrectWordsLine1)
 
         setShowIncorrectWordsLine2(incorrectWordsLine2.map(prev =>{
-          return <p className='wrong-guess' key={uuid()}>{prev}</p>
+          return <p className={lightTheme ? "light-text wrong-guess" : 'wrong-guess'} key={uuid()}>{prev}</p>
         }))      
         localStorage.wordLinkIncorrectLine2 = JSON.stringify(incorrectWordsLine2)
 
       }
     } 
 
-  }, [JSON.stringify(incorrectWordsLine1), JSON.stringify(incorrectWordsLine2)])
+  }, [JSON.stringify(incorrectWordsLine1), JSON.stringify(incorrectWordsLine2), lightTheme])
 
   ///On row change
   useEffect(() =>{
@@ -214,21 +215,34 @@ function App() {
       setTimeout(() =>{
         setFlashGreen(false)
       }, 450)
-    }, [flashGreen])
+    }, [flashGreen]) 
 
   useEffect(() =>{
     setGuessingContainer(wordDB?.wordArray.slice(3).map((prev, index) =>{
-      return(<CurrentRow flashGreen={flashGreen} flashRed={flashRed} rowChangedState={rowChangedState} setPrevWordArray={setPrevWordArray} onClick2={clickRowTwoFunction} onClick={clickRowOneFunction} clickRowTwo={clickRowTwo} clickRowOne={clickRowOne} key={uuid()} startTimerBoolean={startTimerBoolean} id={index} prevWordArray={prevWordArray} heightCounter={heightCounter} textInput={textInput} className='single-word'></CurrentRow>)
+      return(<CurrentRow lightTheme={lightTheme} flashGreen={flashGreen} flashRed={flashRed} rowChangedState={rowChangedState} setPrevWordArray={setPrevWordArray} onClick2={clickRowTwoFunction} onClick={clickRowOneFunction} clickRowTwo={clickRowTwo} clickRowOne={clickRowOne} key={uuid()} startTimerBoolean={startTimerBoolean} id={index} prevWordArray={prevWordArray} heightCounter={heightCounter} textInput={textInput} className='single-word'></CurrentRow>)
     }))
-  },[flashGreen, textInput, startTimerBoolean, clickRowOne, clickRowTwo, incorrectWordsLine1, incorrectWordsLine2, lineChecker, rowChangedState, flashRed])
+  },[flashGreen, lightTheme, textInput, startTimerBoolean, clickRowOne, clickRowTwo, incorrectWordsLine1, incorrectWordsLine2, lineChecker, rowChangedState, flashRed])
 
-  
+  // console.log(lightTheme)
 
   useEffect(() =>{
     setGuessingContainer(wordDB?.wordArray.slice(3).map((prev, index) =>{
-      return(<CurrentRow flashGreen={flashGreen} flashRed={flashRed} rowChangedState={rowChangedState} setPrevWordArray={setPrevWordArray} onClick2={clickRowTwoFunction} onClick={clickRowOneFunction} clickRowTwo={clickRowTwo} clickRowOne={clickRowOne} key={uuid()} startTimerBoolean={startTimerBoolean} id={index} prevWordArray={prevWordArray} heightCounter={heightCounter} textInput={textInput} className='single-word'></CurrentRow>)
+      return(<CurrentRow lightTheme={lightTheme} flashGreen={flashGreen} flashRed={flashRed} rowChangedState={rowChangedState} setPrevWordArray={setPrevWordArray} onClick2={clickRowTwoFunction} onClick={clickRowOneFunction} clickRowTwo={clickRowTwo} clickRowOne={clickRowOne} key={uuid()} startTimerBoolean={startTimerBoolean} id={index} prevWordArray={prevWordArray} heightCounter={heightCounter} textInput={textInput} className='single-word'></CurrentRow>)
     }))
-  }, [rowChangedState])
+  }, [rowChangedState, lightTheme])
+
+  useEffect(() =>{
+    if(startTimerBoolean){
+      setGuessingContainer(wordDB?.wordArray.slice(3).map((prev, index) =>{
+        return(<CurrentRow lightTheme={lightTheme} flashGreen={flashGreen} flashRed={flashRed} rowChangedState={rowChangedState} setPrevWordArray={setPrevWordArray} onClick2={clickRowTwoFunction} onClick={clickRowOneFunction} clickRowTwo={clickRowTwo} clickRowOne={clickRowOne} key={uuid()} startTimerBoolean={startTimerBoolean} id={index} prevWordArray={prevWordArray} heightCounter={heightCounter} textInput={textInput} className='single-word'></CurrentRow>)
+      }))
+    }else{
+      setGuessingContainer(wordDB?.wordArray.slice(2).map((prev, index) =>{
+        return(<CurrentRow lightTheme={lightTheme} flashGreen={flashGreen} flashRed={flashRed} rowChangedState={rowChangedState} setPrevWordArray={setPrevWordArray} onClick2={clickRowTwoFunction} onClick={clickRowOneFunction} clickRowTwo={clickRowTwo} clickRowOne={clickRowOne} key={uuid()} startTimerBoolean={startTimerBoolean} id={index} prevWordArray={prevWordArray} heightCounter={heightCounter} textInput={textInput} className='single-word'></CurrentRow>)
+      }))      
+    }
+
+  }, [lightTheme])
 
   ///When clicked or when submitting
   ///Changes index of wordDBChecker
@@ -368,24 +382,24 @@ function App() {
           }))
           
 
+          setLocalStorageState(prev => ({
+            ...prev,
+            totalTime: prev.totalTime + prev.currentTime
+          }))
+          
+          ///Sets local storage for best time
+          if(localStorage.wordLinkBestTime > localStorageState.currentTime){
             setLocalStorageState(prev => ({
               ...prev,
-              totalTime: prev.totalTime + prev.currentTime
+              bestTime: prev.currentTime
             }))
-            
-            ///Sets local storage for best time
-            if(localStorage.wordLinkBestTime > localStorageState.currentTime){
-              setLocalStorageState(prev => ({
-                ...prev,
-                bestTime: prev.currentTime
-              }))
-            }
+          }
 
 
-            setLocalStorageState(prev => ({
-              ...prev,
-              averageTime: ((prev.totalTime) / prev.totalPlays)
-            }))
+          setLocalStorageState(prev => ({
+            ...prev,
+            averageTime: ((prev.totalTime) / prev.totalPlays)
+          }))
 
           ///Sets local storage for best streak
           if(localStorage.wordLinkMaxStreak <= localStorageState.maxStreak){
@@ -581,68 +595,68 @@ function App() {
   ///If the user has finished the puzzle for this day
   if(localStorage.wordLinkHasWonToday === JSON.stringify(wordDB?.wordArray)){
     return(
-      <div className="App" onClick={focusCursor}>
-      <Navbar setSettingsShown={setSettingsShown} setShowWinPage={setShowWinPage} setHowToPlayShown={setHowToPlayShown}/>
+      <div className={lightTheme ? "light-App App" : "App"} onClick={focusCursor}>
+      <Navbar lightTheme={lightTheme} setSettingsShown={setSettingsShown} setShowWinPage={setShowWinPage} setHowToPlayShown={setHowToPlayShown}/>
 
       {/* All Clickables */}
       {howToPlayShown ? <HowToPlay setHowToPlayShown={setHowToPlayShown}/> : null}
       {showWinPage ? <WinPage incorrectWordsLine1={incorrectWordsLine1} incorrectWordsLine2={incorrectWordsLine2} linkWordDay={linkWordDay} wordDB={wordDB} setShowWinPage={setShowWinPage} localStorageState={localStorageState} /> : null}
-      {settingsShown ? <Settings setSettingsShown={setSettingsShown}/> : null}
+      {settingsShown ? <Settings lightTheme={lightTheme} setLightTheme={setLightTheme} setSettingsShown={setSettingsShown}/> : null}
 
 
       <div className='words-container'>
         {/* First Word */}
-        <div className='first-word'><LastWord lastWord={firstWord}/></div>
+        <div className='first-word'><LastWord lightTheme={lightTheme} lastWord={firstWord}/></div>
 
         {/* Middle Words */}
         <div className="first-word single-word">
-          <div className="single-letter">{wordDBChecker[0]?.substring(0,1).toUpperCase()}</div>
-          <div className="single-letter">{wordDBChecker[0]?.substring(1,2).toUpperCase()}</div>
-          <div className="single-letter">{wordDBChecker[0]?.substring(2,3).toUpperCase()}</div>
-          <div className="single-letter">{wordDBChecker[0]?.substring(3,4).toUpperCase()}</div>
-          <div className="single-letter">{wordDBChecker[0]?.substring(4,5).toUpperCase()}</div>
-          <div className="single-letter">{wordDBChecker[0]?.substring(5,6).toUpperCase()}</div>
-          <div className="single-letter">{wordDBChecker[0]?.substring(6,7).toUpperCase()}</div>
-          <div className="single-letter">{wordDBChecker[0]?.substring(7,8).toUpperCase()}</div>
-          <div className="single-letter">{wordDBChecker[0]?.substring(8,9).toUpperCase()}</div>
-          <div className="single-letter">{wordDBChecker[0]?.substring(9,10).toUpperCase()}</div>
-          <div className="single-letter">{wordDBChecker[0]?.substring(10,11).toUpperCase()}</div>
-          <div className="single-letter">{wordDBChecker[0]?.substring(11,12).toUpperCase()}</div>    
+          <div className={lightTheme ? "light-single-letter single-letter" : "single-letter"}>{wordDBChecker[0]?.substring(0,1).toUpperCase()}</div>
+          <div className={lightTheme ? "light-single-letter single-letter" : "single-letter"}>{wordDBChecker[0]?.substring(1,2).toUpperCase()}</div>
+          <div className={lightTheme ? "light-single-letter single-letter" : "single-letter"}>{wordDBChecker[0]?.substring(2,3).toUpperCase()}</div>
+          <div className={lightTheme ? "light-single-letter single-letter" : "single-letter"}>{wordDBChecker[0]?.substring(3,4).toUpperCase()}</div>
+          <div className={lightTheme ? "light-single-letter single-letter" : "single-letter"}>{wordDBChecker[0]?.substring(4,5).toUpperCase()}</div>
+          <div className={lightTheme ? "light-single-letter single-letter" : "single-letter"}>{wordDBChecker[0]?.substring(5,6).toUpperCase()}</div>
+          <div className={lightTheme ? "light-single-letter single-letter" : "single-letter"}>{wordDBChecker[0]?.substring(6,7).toUpperCase()}</div>
+          <div className={lightTheme ? "light-single-letter single-letter" : "single-letter"}>{wordDBChecker[0]?.substring(7,8).toUpperCase()}</div>
+          <div className={lightTheme ? "light-single-letter single-letter" : "single-letter"}>{wordDBChecker[0]?.substring(8,9).toUpperCase()}</div>
+          <div className={lightTheme ? "light-single-letter single-letter" : "single-letter"}>{wordDBChecker[0]?.substring(9,10).toUpperCase()}</div>
+          <div className={lightTheme ? "light-single-letter single-letter" : "single-letter"}>{wordDBChecker[0]?.substring(10,11).toUpperCase()}</div>
+          <div className={lightTheme ? "light-single-letter single-letter" : "single-letter"}>{wordDBChecker[0]?.substring(11,12).toUpperCase()}</div>    
         </div>
         <div className="first-word single-word">
-          <div className="single-letter">{wordDBChecker[1]?.substring(0,1).toUpperCase()}</div>
-          <div className="single-letter">{wordDBChecker[1]?.substring(1,2).toUpperCase()}</div>
-          <div className="single-letter">{wordDBChecker[1]?.substring(2,3).toUpperCase()}</div>
-          <div className="single-letter">{wordDBChecker[1]?.substring(3,4).toUpperCase()}</div>
-          <div className="single-letter">{wordDBChecker[1]?.substring(4,5).toUpperCase()}</div>
-          <div className="single-letter">{wordDBChecker[1]?.substring(5,6).toUpperCase()}</div>
-          <div className="single-letter">{wordDBChecker[1]?.substring(6,7).toUpperCase()}</div>
-          <div className="single-letter">{wordDBChecker[1]?.substring(7,8).toUpperCase()}</div>
-          <div className="single-letter">{wordDBChecker[1]?.substring(8,9).toUpperCase()}</div>
-          <div className="single-letter">{wordDBChecker[1]?.substring(9,10).toUpperCase()}</div>
-          <div className="single-letter">{wordDBChecker[1]?.substring(10,11).toUpperCase()}</div>
-          <div className="single-letter">{wordDBChecker[1]?.substring(11,12).toUpperCase()}</div>    
+          <div className={lightTheme ? "light-single-letter single-letter" : "single-letter"}>{wordDBChecker[1]?.substring(0,1).toUpperCase()}</div>
+          <div className={lightTheme ? "light-single-letter single-letter" : "single-letter"}>{wordDBChecker[1]?.substring(1,2).toUpperCase()}</div>
+          <div className={lightTheme ? "light-single-letter single-letter" : "single-letter"}>{wordDBChecker[1]?.substring(2,3).toUpperCase()}</div>
+          <div className={lightTheme ? "light-single-letter single-letter" : "single-letter"}>{wordDBChecker[1]?.substring(3,4).toUpperCase()}</div>
+          <div className={lightTheme ? "light-single-letter single-letter" : "single-letter"}>{wordDBChecker[1]?.substring(4,5).toUpperCase()}</div>
+          <div className={lightTheme ? "light-single-letter single-letter" : "single-letter"}>{wordDBChecker[1]?.substring(5,6).toUpperCase()}</div>
+          <div className={lightTheme ? "light-single-letter single-letter" : "single-letter"}>{wordDBChecker[1]?.substring(6,7).toUpperCase()}</div>
+          <div className={lightTheme ? "light-single-letter single-letter" : "single-letter"}>{wordDBChecker[1]?.substring(7,8).toUpperCase()}</div>
+          <div className={lightTheme ? "light-single-letter single-letter" : "single-letter"}>{wordDBChecker[1]?.substring(8,9).toUpperCase()}</div>
+          <div className={lightTheme ? "light-single-letter single-letter" : "single-letter"}>{wordDBChecker[1]?.substring(9,10).toUpperCase()}</div>
+          <div className={lightTheme ? "light-single-letter single-letter" : "single-letter"}>{wordDBChecker[1]?.substring(10,11).toUpperCase()}</div>
+          <div className={lightTheme ? "light-single-letter single-letter" : "single-letter"}>{wordDBChecker[1]?.substring(11,12).toUpperCase()}</div>    
         </div>
 
         {/* Last Word */}
-        <div className='last-word'><LastWord lastWord={lastWord}/></div>
+        <div className='last-word'><LastWord lightTheme={lightTheme} lastWord={lastWord}/></div>
 
       </div>
 
-      <div className='tries'><p>Guess: {tries}/3</p></div>
+      <div className={lightTheme ? "light-text tries" : 'tries'}><p>Guess: {tries}/3</p></div>
 
     <Keyboard formSubmit={formSubmit} textInput={textInput} setTextInput={setTextInput}/>
 
     {/* Incorrect Words */}
     <div className='first-incorrect-word'>
-        <h4>Line 1</h4>
+        <h4 className={lightTheme ? "light-text" : null}>Line 1</h4>
         {showIncorrectWordsLine1}
           {/* {incorrectWordsLine1.map(prev =>{
             return <p className='wrong-guess' key={uuid()}>{prev}</p>
         })}         */}
     </div>
     <div className='second-incorrect-word'>
-      <h4>Line 2</h4>
+      <h4 className={lightTheme ? "light-text" : null}>Line 2</h4>
       {showIncorrectWordsLine2}
       {/* {incorrectWordsLine2.map(prev =>{
         return <p className='wrong-guess' key={uuid()}>{prev}</p>
@@ -658,28 +672,28 @@ function App() {
   if(!wordDB) return null
 
   return (
-    <div className="App" onClick={focusCursor}>
-      <Navbar setSettingsShown={setSettingsShown} setShowWinPage={setShowWinPage} setHowToPlayShown={setHowToPlayShown}/>
+    <div className={lightTheme ? "light-App App" : "App"} onClick={focusCursor}>
+      <Navbar lightTheme={lightTheme} setSettingsShown={setSettingsShown} setShowWinPage={setShowWinPage} setHowToPlayShown={setHowToPlayShown}/>
 
       {/* All Clickables */}
       {howToPlayShown ? <HowToPlay setHowToPlayShown={setHowToPlayShown}/> : null}
       {showWinPage ? <WinPage incorrectWordsLine1={incorrectWordsLine1} incorrectWordsLine2={incorrectWordsLine2} linkWordDay={linkWordDay} wordDB={wordDB} setShowWinPage={setShowWinPage} localStorageState={localStorageState} /> : null}
-      {settingsShown ? <Settings setSettingsShown={setSettingsShown}/> : null}
+      {settingsShown ? <Settings lightTheme={lightTheme} setLightTheme={setLightTheme} setSettingsShown={setSettingsShown}/> : null}
 
 
       <div className='words-container'>
         {/* First Word */}
-        {startTimerBoolean ? <div className='first-word'><LastWord lastWord={firstWord}/></div> : <div className='first-word'><LastWord /></div>}
+        {startTimerBoolean ? <div className='first-word'><LastWord lightTheme={lightTheme} lastWord={firstWord}/></div> : <div className='first-word'><LastWord lightTheme={lightTheme}/></div>}
 
         {/* Middle Words */}
         {guessingContainer}
 
         {/* Last Word */}
-        {startTimerBoolean ? <div className='last-word'><LastWord lastWord={lastWord}/></div> : <div className='last-word'><LastWord /></div>}
+        {startTimerBoolean ? <div className='last-word'><LastWord lightTheme={lightTheme} lastWord={lastWord}/></div> : <div className='last-word'><LastWord lightTheme={lightTheme}/></div>}
 
       </div>
 
-      <div className='tries'><p>Guess: {tries}/3</p></div>
+      <div className={lightTheme ? "light-text tries" : 'tries'}><p>Guess: {tries}/3</p></div>
 
 
       {/* Input */}
@@ -691,14 +705,14 @@ function App() {
 
     {/* Incorrect Words */}
     <div className='first-incorrect-word'>
-        <h4>Line 1</h4>
+        <h4 className={lightTheme ? "light-text" : null}>Line 1</h4>
         {showIncorrectWordsLine1}
           {/* {incorrectWordsLine1.map(prev =>{
             return <p className='wrong-guess' key={uuid()}>{prev}</p>
         })}         */}
     </div>
     <div className='second-incorrect-word'>
-      <h4>Line 2</h4>
+      <h4 className={lightTheme ? "light-text" : null}>Line 2</h4>
       {showIncorrectWordsLine2}
       {/* {incorrectWordsLine2.map(prev =>{
         return <p className='wrong-guess' key={uuid()}>{prev}</p>
@@ -706,7 +720,7 @@ function App() {
     </div>
 
     <div className='timer-and-button'>
-      <Timer id="timer" className="timer" active={startTimerBoolean} onTimeUpdate={updateTimer} duration={null}>
+      <Timer id="timer" className={lightTheme ? "light-text timer" : "timer"} active={startTimerBoolean} onTimeUpdate={updateTimer} duration={null}>
         <Timecode />
       </Timer>
 
