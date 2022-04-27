@@ -9,7 +9,7 @@ export default function CurrentRow({lightTheme, flashGreen, flashRed, clickRowOn
                 return(
                     ///Current typing first row
                     <div className='guessing-container'>
-                        <div id="current-word" className='current-word single-word'>
+                        <div id="current-word" className=' single-word'>
                             <div className={lightTheme ? "current-word light-single-letter single-letter" : "current-word single-letter"}>{textInput?.substring(0,1).toUpperCase()}</div>
                             <div className={lightTheme ? "current-word light-single-letter single-letter" : "current-word single-letter"}>{textInput?.substring(1,2).toUpperCase()}</div>
                             <div className={lightTheme ? "current-word light-single-letter single-letter" : "current-word single-letter"}>{textInput?.substring(2,3).toUpperCase()}</div>

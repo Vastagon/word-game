@@ -23,7 +23,7 @@ button{
   position: absolute;
   box-sizing: border-box;
   top: 0;
-  height: 100vh;
+  height: 100%;
   width: 100vw;
   left: 0;
 }
@@ -468,6 +468,12 @@ input:checked + .slider:before{
   
 }
 @media screen and (max-width: 500px) {
+  .App{
+    height: 150%;
+  }
+  .single-letter{
+    width: 6vw;
+  }
   .media-sharing{
     right: 10%;
   }
@@ -508,7 +514,7 @@ input:checked + .slider:before{
   }
   .timer-and-button{
     left: 35%;
-    top: 10.5%;
+    top: 8%;
     width: 30%;  
   }
   .start-button{
@@ -522,7 +528,7 @@ input:checked + .slider:before{
     font-size: .8rem;
   }
   .tries{
-    /* top: 52%; */
+    top: 0;
     position: relative;
     width: 100vw;
     padding-top: 2%;
@@ -538,9 +544,11 @@ input:checked + .slider:before{
   .first-incorrect-word > h4, .second-incorrect-word > h4{
     font-size: 2rem;
     width: 100%;
+
+    margin-top: -30%;
   }
   .second-incorrect-word{
-    top: 95%;
+
   }
   .nav-right{
     right: 5%;
@@ -551,9 +559,6 @@ input:checked + .slider:before{
 
 }
 @media screen and (max-width: 380px) {
-  .tries{
-    margin-top: 1%;
-  }
   .media-sharing{
     right: 12%;
   }
@@ -579,9 +584,6 @@ input:checked + .slider:before{
     height: 3vh !important;
     width: 5vh !important;
     font-size: .8rem !important;
-  }
-  .tries{
-    top: 46.5%;
   }
   .timer{
     font-size: 2rem;

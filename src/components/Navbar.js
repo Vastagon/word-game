@@ -1,7 +1,6 @@
 
 
 export default function Navbar({lightTheme, setSettingsShown, setShowWinPage, setHowToPlayShown}){
-
     function showHowToPlay(){
         setHowToPlayShown(prev => !prev)
     }
