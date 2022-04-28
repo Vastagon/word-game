@@ -1,11 +1,15 @@
 import "../Settings.css"
-import { useState } from "react"
+import { useEffect } from "react"
 
 export default function Settings({lightTheme, setLightTheme, setSettingsShown}){
 
     function removePage(){
         setSettingsShown(false)
     }
+
+    useEffect(() =>{
+        localStorage.wordLinkLightTheme = lightTheme
+    }, [lightTheme])
     
     return(
         <div className="settings">

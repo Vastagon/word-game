@@ -2,14 +2,17 @@
 
 export default function CurrentRow({lightTheme, flashGreen, flashRed, clickRowOne, clickRowTwo, onClick, onClick2, startTimerBoolean, prevWordArray, textInput}){
 
+
+    console.log(lightTheme)
     if(startTimerBoolean){
         ///Row One Clicked
         if(clickRowOne){
             if(!flashRed && !flashGreen){
+
                 return(
                     ///Current typing first row
                     <div className='guessing-container'>
-                        <div id="current-word" className=' single-word'>
+                        <div id="current-word" className='single-word'>
                             <div className={lightTheme ? "current-word light-single-letter single-letter" : "current-word single-letter"}>{textInput?.substring(0,1).toUpperCase()}</div>
                             <div className={lightTheme ? "current-word light-single-letter single-letter" : "current-word single-letter"}>{textInput?.substring(1,2).toUpperCase()}</div>
                             <div className={lightTheme ? "current-word light-single-letter single-letter" : "current-word single-letter"}>{textInput?.substring(2,3).toUpperCase()}</div>
@@ -40,6 +43,7 @@ export default function CurrentRow({lightTheme, flashGreen, flashRed, clickRowOn
                     </div>
                 )
             }else if(!flashGreen){
+
                 return(
                     ///Current typing first row wrong guess
                     <div className='guessing-container'>
@@ -74,6 +78,7 @@ export default function CurrentRow({lightTheme, flashGreen, flashRed, clickRowOn
                     </div>
                 )
             }else{
+
                 return(
                     ///Current typing first row correct guess
                     <div className='guessing-container'>
@@ -112,6 +117,7 @@ export default function CurrentRow({lightTheme, flashGreen, flashRed, clickRowOn
         }else if(clickRowTwo){
             ///Row Two Clicked
             if(!flashRed && !flashGreen){
+
                 return(
                     ///Typing on row two
                     <div className='guessing-container'>
@@ -148,6 +154,7 @@ export default function CurrentRow({lightTheme, flashGreen, flashRed, clickRowOn
                     </div>
                 )
             }else if(!flashGreen){
+
                 return(
                     ///Typing on row two incorrect guess
                     <div className='guessing-container'>
@@ -184,6 +191,7 @@ export default function CurrentRow({lightTheme, flashGreen, flashRed, clickRowOn
                     </div>
                 )
             }else{
+
                 return(
                     ///Typing on row two correct guess
                     <div className='guessing-container'>

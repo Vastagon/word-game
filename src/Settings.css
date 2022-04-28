@@ -3,7 +3,7 @@
     width: 30%;
     left: 35%;
     height: 35%;
-    top: 30%;
+    top: 27.5%;
     background-color: #F8F8FF;
     color: black;
     text-align: center;
@@ -12,7 +12,6 @@
     border-width: 1px;
     border-color: black;
     border-style: solid;
-
 
     animation-name: settings-fade-in;
     animation-duration: .7s;
@@ -47,6 +46,61 @@ h4{
     font-size: 1.6rem;
 }
 
+/* Theme Switch */
+.slider{
+    cursor: pointer;
+    position: absolute;
+    bottom: 3%;
+    right: 3%;
+    background-color: white;
+    transition: .4s;
+    border-radius: 34px;
+    font-size: .9em;
+    height: 8%;
+    width: 3.6em;
+
+    border-radius: 100px;
+    border-width: 2px;
+    border-color: black;
+    border-style: solid;
+  }
+  .switch input {
+    display:none
+  }
+  .slider:before{
+    position: absolute;
+    content:"";
+    width: 1.2em;
+    height: 1.2em;
+    left: 10%;
+    bottom: .00em;
+    background-color: black;
+    transition: .4s;
+    border-radius: 1.2em;
+  }
+  
+  .slider-text{
+    position: absolute;
+    bottom: 3%;
+    left: 1rem;
+    font-size: 1.2rem;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  
+  }
+  input:checked + .slider:before{
+    background-color: white;
+  }
+  
+  input:checked + .slider{
+    background-color: black
+  }
+  input:checked + .slider:before{
+    transform: translateX(140%);
+  }
+
+
+
 @keyframes settings-fade-in {
     from{
         top: 40%;
@@ -54,22 +108,111 @@ h4{
 
     }
     to{
-        top: 30%;
+        top: 27.5%;
         opacity: 1;
     }
 }
 
-
+/* 4k */
+@media screen and (min-width: 2500px) {
+    .slider{
+        cursor: pointer;
+        position: absolute;
+        bottom: 3%;
+        right: 3%;
+        border-radius: 34px;
+        font-size: 1.8em;
+        height: 8%;
+        width: 3.5em;
+    }
+    input:checked + .slider:before{
+        transform: translateX(350%);
+    }
+}
+@media screen and (min-width: 1440px) {
+    .slider:before{
+        width: 1.4em;
+        height: 1.4em;    
+        bottom: .13em;
+    }
+    input:checked + .slider:before{
+        transform: translateX(105%);
+    }
+}
 
 @media screen and (max-width: 800px) {
+    @-webkit-keyframes settings-fade-in {
+        from{
+            top: 40%;
+            opacity: 0;
+    
+        }
+        to{
+            top: 30%;
+            opacity: 1;
+        }
+    }
+    
     .settings{
         position: absolute;
-        width: 80%;
-        left: 10%;
+        width: 60%;
+        left: 20%;
         height: 35%;
         top: 30%;
     }
     .feedback, .community{
         font-size: 1.1rem;
     }
+}
+@media screen and (max-width: 500px) {
+    @keyframes settings-fade-in {
+        from{
+            top: 20%;
+            opacity: 0;
+        }
+        to{
+            top: 10%;
+            opacity: 1;
+        }
+    }
+    .slider-text{
+        position: absolute;
+        bottom: 3%;
+        left: .8rem;
+        font-size: 1rem;
+    }
+    .slider:before{
+        width: .8em;
+        height: .8em;    
+        bottom: .0em;
+    }
+    .slider{
+        cursor: pointer;
+        position: absolute;
+        bottom: 3%;
+        right: 3%;
+        transition: .4s;
+        border-radius: 34px;
+        font-size: 1em;
+        width: 3em;      
+    }
+    .settings{      
+        width: 70%;
+        left: 15%;
+        height: 15%;
+        top: 10%;
+    }
+    input:checked + .slider:before{
+        transform: translateX(200%);
+    }
+}
+@media screen and (max-width: 350px) {
+    .feedback, .community{
+        font-size: .9rem;
+    }
+}
+
+/* Sideways Phone */
+@media screen and (max-width: 760px) and (max-height: 500px) {
+
 }

@@ -251,6 +251,10 @@ button{
   animation-duration: .7s;
   padding-left: 5%;
   padding-right: 5%;
+
+  border-width: 1px;
+  border-color: black;
+  border-style: solid;
 }
 .win-page-bottom{
   display: flex;
@@ -334,11 +338,11 @@ button{
 
 
 .light-App{
-  background-color: #d8d8d8;
-
+  background-color: #f6f7f8;
+  opacity: .9;
 }
 .light-navbar{
-  background-color: whitesmoke;
+  background-color: #f4f4f4;
   border-color: black;
 }
 .light-linkword{
@@ -348,66 +352,30 @@ button{
   border-color: black;
 }
 .light-cog{
-  background-color: whitesmoke;
+  background-color: #f4f4f4;
   height: 6.5vh;
 }
 .light-menu{
   height: 6.5vh;
   width: 6vh;
+  opacity: 1;
 }
 .light-single-letter{
   color: black;
   background-color: white;
   border-color: black;
+  opacity: 1 !important;
 }
 .light-text{
   color: black;
+  opacity: 1;
 }
 
 /* .cog, bar, question-mark, navbar, button, root */
 
 /* change menu image */
 
-.slider{
-  cursor: pointer;
-  position: absolute;
-  bottom: 3%;
-  right: 3%;
-  background-color: red;
-  transition: .4s;
-  border-radius: 34px;
-  font-size: 1em;
-  height: 10%;
-  width: 15%;
-}
-.switch input {
-  display:none
-}
-.slider:before{
-  position: absolute;
-  content:"";
-  width: 1.2em;
-  height: 1.2em;
-  left: 10%;
-  bottom: .2em;
-  background-color: black;
-  transition: .4s;
-  border-radius: 1.2em;
-}
 
-.slider-text{
-  position: absolute;
-  bottom: 3%;
-  left: 1rem;
-  font-size: 1.2rem;
-}
-
-input:checked + .slider{
-  background-color: green
-}
-input:checked + .slider:before{
-  transform: translateX(140%);
-}
 
 
 
@@ -426,6 +394,10 @@ input:checked + .slider:before{
 }
 
 @media screen and (max-width: 850px) {
+  .light-keyboard-key{
+    background-color: black;
+    color: white;
+  }
   .copy-button{
     margin-right: 5%;
   }
@@ -468,8 +440,26 @@ input:checked + .slider:before{
   
 }
 @media screen and (max-width: 500px) {
+  .light-keyboard-key{
+    background-color: black;
+    color: white;
+  }
+  @keyframes fade-in {
+    0% {
+      opacity:0;
+      top: 18%;
+    }
+    100%{
+      opacity:1;
+      top: 8%;
+    }
+  }
+  .win-page{
+    top: 8%;
+    left: 1%;
+  }
   .App{
-    height: 150%;
+    height: 200%;
   }
   .single-letter{
     width: 6vw;
@@ -547,9 +537,6 @@ input:checked + .slider:before{
 
     margin-top: -30%;
   }
-  .second-incorrect-word{
-
-  }
   .nav-right{
     right: 5%;
   }
@@ -559,6 +546,10 @@ input:checked + .slider:before{
 
 }
 @media screen and (max-width: 380px) {
+  .light-keyboard-key{
+    background-color: black;
+    color: white;
+  }
   .media-sharing{
     right: 12%;
   }
@@ -595,6 +586,9 @@ input:checked + .slider:before{
 
 /* Sideways Phone */
 @media screen and (max-width: 760px) and (max-height: 500px) {
+  .App{
+    height: 200%;
+  }
   .stats-container-row{
     display: flex;
     align-items: center;

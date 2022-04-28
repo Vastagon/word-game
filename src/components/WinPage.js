@@ -7,7 +7,7 @@ import {useEffect, useState} from "react"
 Chart.register(...registerables);
 
 
-export default function WinPage({incorrectWordsLine1, incorrectWordsLine2, linkWordDay, wordDB, setShowWinPage, localStorageState}){
+export default function WinPage({incorrectWordsLine1, incorrectWordsLine2, linkWordDay, setShowWinPage, localStorageState}){
     let windowWidth = window.innerWidth
     const [time, setTime] = useState(Date.now());
 

@@ -36,7 +36,7 @@
 
 @keyframes howtoplay-fade-in {
     from{
-        top: 40%;
+        top: 30%;
         opacity: 0;
     }
     to{
@@ -60,9 +60,20 @@
     }
 }
 @media screen and (max-width: 500px) {
+    @keyframes howtoplay-fade-in {
+        from{
+            top: 20%;
+            opacity: 0;
+        }
+        to{
+            top: 10%;
+            opacity: 1;
+        }
+    }
     .how-to-play{
         width: 80%;
-        height: 60%;
+        top: 10%;
+        height: 30rem;
         padding-left: 5%;
         padding-right: 5%;
         font-size: .95rem;
@@ -82,10 +93,13 @@
 @media screen and (max-width: 760px) and (max-height: 430px) {
     .how-to-play{
         width: 80%;
-        height: 60%;
+        height: 40rem;
         padding-left: 5%;
         padding-right: 5%;
         font-size: .8rem;
         margin-left: 4.5%;
+        -webkit-appearance: none;
+        -moz-appearance: none;      
+
     }
 }

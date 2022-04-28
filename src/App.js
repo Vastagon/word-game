@@ -29,6 +29,7 @@ function App() {
   
   const [showWinPage, setShowWinPage] = useState(false)
   const [guessingContainer, setGuessingContainer] = useState()
+  // const [keyboard, setKeyboard] = useState(    <Keyboard formSubmit={formSubmit} textInput={textInput} setTextInput={setTextInput}/>  )
 
   const [localStorageState, setLocalStorageState] = useState()
   const [startTimerBoolean, setStartTimerBoolean] = useState(false)
@@ -57,7 +58,7 @@ function App() {
   const [showIncorrectWordsLine1, setShowIncorrectWordsLine1] = useState([]) 
   const [showIncorrectWordsLine2, setShowIncorrectWordsLine2] = useState([])
 
-  const [lightTheme, setLightTheme] = useState(false)
+  const [lightTheme, setLightTheme] = useState()
 
   const [linkWordDay, setLinkWordDay] = useState()
 
@@ -109,6 +110,12 @@ function App() {
       if (localStorage.getItem("wordLinkBottomLine") === null) {
         localStorage.wordLinkBottomLine = "[0,0,0,0]"
       }
+      if(localStorage.getItem("wordLinkLightTheme") === null){
+        localStorage.wordLinkLightTheme = false
+      }
+      if(localStorage.getItem("wordLinkDailyTime") === null){
+        localStorage.wordLinkLightTheme = 0
+      }
       if(localStorage.wordLinkIncorrectLine1 === undefined){
         localStorage.wordLinkIncorrectLine1 = "[]"
       }
@@ -129,15 +136,20 @@ function App() {
         bottomLine: JSON.parse(localStorage.wordLinkBottomLine)
       }))
 
-
-
+      setLightTheme(JSON.parse(localStorage.wordLinkLightTheme))
 
       ///Checking if they've played today
       if(localStorage.wordLinkHasWonToday === JSON.stringify(res.data.wordArray)){
+          setLocalStorageState(prev => ({
+            ...prev,
+            currentTime: parseInt(localStorage.wordLinkDailyTime)
+          }))
+
         setShowWinPage(true)
       }else{
         localStorage.wordLinkIncorrectLine2 = "[]"
         localStorage.wordLinkIncorrectLine1 = "[]"
+        localStorage.wordLinkDailyTime = 0
       }
       ///Creates checking array on page load
       let tempArray = [...res.data.wordArray]
@@ -146,12 +158,13 @@ function App() {
       setWordDBChecker(tempArray)
 
       ///Initialize guessing container
-      setGuessingContainer(res.data.wordArray.slice(2).map((prev, index) =>{
-        return(<CurrentRow lightTheme={lightTheme} rowChangedState={rowChangedState} setPrevWordArray={setPrevWordArray} onClick2={clickRowTwoFunction} onClick={clickRowOneFunction} clickRowTwo={clickRowTwo} clickRowOne={clickRowOne} key={uuid()} id={index} prevWordArray={prevWordArray} heightCounter={heightCounter} textInput={textInput} className='single-word'></CurrentRow>)
-      }))
+      // setGuessingContainer(res.data.wordArray.slice(2).map((prev, index) =>{
+      //   return(<CurrentRow lightTheme={lightTheme} rowChangedState={rowChangedState} setPrevWordArray={setPrevWordArray} onClick2={clickRowTwoFunction} onClick={clickRowOneFunction} clickRowTwo={clickRowTwo} clickRowOne={clickRowOne} key={uuid()} id={index} prevWordArray={prevWordArray} heightCounter={heightCounter} textInput={textInput} className='single-word'></CurrentRow>)
+      // }))
 
     })
   }, [])
+
 
   ///failed guesses every day
   useEffect(() =>{
@@ -218,14 +231,17 @@ function App() {
     }, [flashGreen]) 
 
   useEffect(() =>{
+    console.log(lightTheme)
+
     setGuessingContainer(wordDB?.wordArray.slice(3).map((prev, index) =>{
       return(<CurrentRow lightTheme={lightTheme} flashGreen={flashGreen} flashRed={flashRed} rowChangedState={rowChangedState} setPrevWordArray={setPrevWordArray} onClick2={clickRowTwoFunction} onClick={clickRowOneFunction} clickRowTwo={clickRowTwo} clickRowOne={clickRowOne} key={uuid()} startTimerBoolean={startTimerBoolean} id={index} prevWordArray={prevWordArray} heightCounter={heightCounter} textInput={textInput} className='single-word'></CurrentRow>)
     }))
   },[flashGreen, lightTheme, textInput, startTimerBoolean, clickRowOne, clickRowTwo, incorrectWordsLine1, incorrectWordsLine2, lineChecker, rowChangedState, flashRed])
 
-  // console.log(lightTheme)
 
   useEffect(() =>{
+    console.log(lightTheme)
+
     setGuessingContainer(wordDB?.wordArray.slice(3).map((prev, index) =>{
       return(<CurrentRow lightTheme={lightTheme} flashGreen={flashGreen} flashRed={flashRed} rowChangedState={rowChangedState} setPrevWordArray={setPrevWordArray} onClick2={clickRowTwoFunction} onClick={clickRowOneFunction} clickRowTwo={clickRowTwo} clickRowOne={clickRowOne} key={uuid()} startTimerBoolean={startTimerBoolean} id={index} prevWordArray={prevWordArray} heightCounter={heightCounter} textInput={textInput} className='single-word'></CurrentRow>)
     }))
@@ -233,6 +249,8 @@ function App() {
 
   useEffect(() =>{
     if(startTimerBoolean){
+      console.log(lightTheme)
+
       setGuessingContainer(wordDB?.wordArray.slice(3).map((prev, index) =>{
         return(<CurrentRow lightTheme={lightTheme} flashGreen={flashGreen} flashRed={flashRed} rowChangedState={rowChangedState} setPrevWordArray={setPrevWordArray} onClick2={clickRowTwoFunction} onClick={clickRowOneFunction} clickRowTwo={clickRowTwo} clickRowOne={clickRowOne} key={uuid()} startTimerBoolean={startTimerBoolean} id={index} prevWordArray={prevWordArray} heightCounter={heightCounter} textInput={textInput} className='single-word'></CurrentRow>)
       }))
@@ -241,7 +259,6 @@ function App() {
         return(<CurrentRow lightTheme={lightTheme} flashGreen={flashGreen} flashRed={flashRed} rowChangedState={rowChangedState} setPrevWordArray={setPrevWordArray} onClick2={clickRowTwoFunction} onClick={clickRowOneFunction} clickRowTwo={clickRowTwo} clickRowOne={clickRowOne} key={uuid()} startTimerBoolean={startTimerBoolean} id={index} prevWordArray={prevWordArray} heightCounter={heightCounter} textInput={textInput} className='single-word'></CurrentRow>)
       }))      
     }
-
   }, [lightTheme])
 
   ///When clicked or when submitting
@@ -541,6 +558,8 @@ function App() {
     ///Stops timer
     setStartTimerBoolean(false)
 
+    localStorage.wordLinkDailyTime = localStorageState.currentTime
+
     setLocalStorageState(prev => ({
         ...prev,
         totalPlays: prev.totalPlays+1
@@ -591,6 +610,9 @@ function App() {
       localStorage.wordLinkBottomLine = JSON.stringify(localStorageState.bottomLine)
     }
   }, [JSON.stringify(localStorageState?.bottomLine), JSON.stringify(localStorageState?.topLine)])
+
+
+
 
   ///If the user has finished the puzzle for this day
   if(localStorage.wordLinkHasWonToday === JSON.stringify(wordDB?.wordArray)){
@@ -645,7 +667,7 @@ function App() {
 
       <div className={lightTheme ? "light-text tries" : 'tries'}><p>Guess: {tries}/3</p></div>
 
-    <Keyboard formSubmit={formSubmit} textInput={textInput} setTextInput={setTextInput}/>
+    <Keyboard lightTheme={lightTheme} formSubmit={formSubmit} textInput={textInput} setTextInput={setTextInput}/>
 
     {/* Incorrect Words */}
     <div className='first-incorrect-word'>
@@ -701,7 +723,7 @@ function App() {
         {showWinPage || (!clickRowOne && !clickRowTwo) ? null : <input autoFocus maxLength={12} onChange={handleTypeInput} type="text" id="text-input" placeholder='guess word'></input>}
       </form>
 
-    <Keyboard formSubmit={formSubmit} textInput={textInput} setTextInput={setTextInput}/>
+    <Keyboard lightTheme={lightTheme} formSubmit={formSubmit} textInput={textInput} setTextInput={setTextInput}/>
 
     {/* Incorrect Words */}
     <div className='first-incorrect-word'>
