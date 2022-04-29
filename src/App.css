@@ -125,9 +125,12 @@ button{
 }
 .red-word{
   border-color: red !important;
+  background-color: red !important;
+
 }
 .green-word{
   border-color: green !important;
+  background-color: green !important;
 }
 .words-container{
   width: 70%;
@@ -258,11 +261,13 @@ button{
 }
 .win-page-bottom{
   display: flex;
-  position: absolute;
-  bottom: 2%;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  position: relative;
+  /* bottom: 2%; */
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-top: 5%;
   right: 0%;
+  margin-top: 1vw;
   width: 100%;
 }
 .next-puzzle{
@@ -293,7 +298,7 @@ button{
   align-items: center;
   justify-content: center;
   width: 100%;
-  margin-top: 5%;
+  margin-top: 2vw;
 }
 
 .stats-element{
@@ -370,14 +375,6 @@ button{
   color: black;
   opacity: 1;
 }
-
-/* .cog, bar, question-mark, navbar, button, root */
-
-/* change menu image */
-
-
-
-
 
 
 

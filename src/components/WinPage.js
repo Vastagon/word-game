@@ -34,12 +34,13 @@ export default function WinPage({incorrectWordsLine1, incorrectWordsLine2, linkW
       }, []);
 
 
-    let seconds = Math.floor(localStorageState?.averageTime / 1000)
+    let seconds = Math.floor((localStorageState?.averageTime / 1000) % 60)
     if(seconds < 10){
         seconds = "0" + seconds
     }
 
-    let minutes = Math.floor(localStorageState?.averageTime % 3600 / 60 / 1000)
+    let minutes = Math.floor(localStorageState?.averageTime / 1000)
+    minutes = Math.floor(minutes / 60)
     if(minutes < 10){
         if(minutes === 0){
             minutes = "00"
@@ -48,12 +49,13 @@ export default function WinPage({incorrectWordsLine1, incorrectWordsLine2, linkW
         }
     }
 
-    let bestSeconds = Math.floor(localStorageState?.bestTime / 1000)
+    let bestSeconds = Math.floor((localStorageState?.bestTime / 1000) % 60)
     if(bestSeconds < 10){
         bestSeconds = "0" + bestSeconds
     }
 
-    let bestMinutes = Math.floor(localStorageState?.bestTime % 3600 / 60 / 1000)
+    let bestMinutes = Math.floor(localStorageState?.bestTime / 1000)
+    bestMinutes = Math.floor(bestMinutes / 60)
     if(bestMinutes < 10){
         if(bestMinutes === 0){
             bestMinutes = "00"
@@ -62,12 +64,13 @@ export default function WinPage({incorrectWordsLine1, incorrectWordsLine2, linkW
         }
     }  
 
-    let currentSeconds = Math.floor(localStorageState?.currentTime / 1000)
+    let currentSeconds = Math.floor((localStorageState?.currentTime / 1000) % 60)
     if(currentSeconds < 10){
         currentSeconds = "0" + currentSeconds
     }
 
-    let currentMinutes = Math.floor(localStorageState?.currentTime % 3600 / 60 / 1000)
+    let currentMinutes = Math.floor(localStorageState?.currentTime / 1000)
+    currentMinutes = Math.floor(currentMinutes / 60)
     if(currentMinutes < 10){
         if(currentMinutes === 0){
             currentMinutes = "00"
@@ -106,9 +109,25 @@ export default function WinPage({incorrectWordsLine1, incorrectWordsLine2, linkW
     d = (d.toString(d))
     d = (d.substring(17,25))
 
-    let hoursLeft = 23 - parseInt(d.substring(0,2) - 5)
-    let minutesLeft = 60 - parseInt(d.substring(3,5))
-    let secondsLeft = 60 - parseInt(d.substring(6,8))
+    // console.log(d.substring(0,2))
+    // console.log(Math.abs(23 - 22 - 5))
+    ///22 is 5pm for us midnight for utc
+    console.log(d)
+
+    let hoursLeft = Math.abs((23 - parseInt(d.substring(0,2) - 5)))
+
+    // let hoursLeft = 23 - parseInt(d.substring(0,2) - 5)
+
+    if((23 - parseInt(d.substring(0,2) - 5)) < 0){
+        hoursLeft = hoursLeft + 3
+    }
+    console.log(hoursLeft)
+    ///if numbers are negative, then error occurs
+    ///error occurs when substring is greater than  
+
+
+    let minutesLeft = 59 - parseInt(d.substring(3,5))
+    let secondsLeft = 59 - parseInt(d.substring(6,8))
 
     ///String copied when the copy button is pressed
     let shareString = `#LinkWord ${linkWordDay?.toString()}\n🔗\n${checkmark}Line One ${incorrectWordsLine1.length === 0 ? 1 : incorrectWordsLine1.length}/3\n${checkmark2}Line Two ${incorrectWordsLine2.length === 0 ? 1 : incorrectWordsLine2.length}/3\n🔗\n${currentMinutes.toString()}:${currentSeconds.toString()}\n`
@@ -129,8 +148,8 @@ export default function WinPage({incorrectWordsLine1, incorrectWordsLine2, linkW
             });
         }            
     }
-    function CopyText(){
-        navigator.clipboard.writeText(shareString)
+    async function CopyText(){
+        await navigator.clipboard.writeText(shareString)
         alert("Copied Results to Clipboard")
     }
 
@@ -171,50 +190,12 @@ export default function WinPage({incorrectWordsLine1, incorrectWordsLine2, linkW
                         Average Time
                     </div>
                     <div className="stats-element">
-                        {bestSeconds > 60 ? `NaN` : `${bestMinutes}:${bestSeconds}`}<br></br>
+                        {bestMinutes}:{bestSeconds}<br></br>
                         Best Time
                     </div>
                 </div>
 
             </div>
-
-        <div className='win-page-bottom'>
-            <div className='next-puzzle'>
-                NEXT LINKWORD<br></br>
-                <div>{countdown[0]}:{countdown[1]}:{countdown[2]}</div>
-            </div>
-
-            <div className='media-sharing'>
-                <div className='react-share-buttons'>
-                    <TwitterShareButton
-                    url="linkwordgame.com"
-                    title={`#LinkWord ${linkWordDay?.toString()}\n🔗\n${checkmark}Line One ${incorrectWordsLine1.length === 0 ? 1 : incorrectWordsLine1.length}/3\n${checkmark2}Line Two ${incorrectWordsLine2.length === 0 ? 1 : incorrectWordsLine2.length}/3\n🔗\n${currentMinutes.toString()}:${currentSeconds.toString()}\n`}
-                    className="a"
-                    >
-                        <TwitterIcon size={windowWidth <= 500 ? 32:  48} round />
-                    </TwitterShareButton>
-
-                    <FacebookShareButton
-                    url="linkwordgame.com"
-                        description={``}
-                    >
-                        <FacebookIcon size={windowWidth <= 500 ? 32:  48} round />
-                    </FacebookShareButton>                    
-                </div>
-
-                <button className='share-button copy-button' onClick={ShareText}>Share<img className='copy-image' src="https://cdn0.iconfinder.com/data/icons/simple-lines-part-3/32/Share_Send_Copy_Publish_Android-512.png" /></button>
-                <button className='copy-button' onClick={CopyText}>Copy<img className='copy-image' src="https://cdn0.iconfinder.com/data/icons/simple-lines-part-3/32/Share_Send_Copy_Publish_Android-512.png" /></button>
-            </div>
-        </div>
-
-
-
-
-
-
-
-
-
 
             {/* Graph Goes here */}
             <div className='bar-graph'>
@@ -293,6 +274,35 @@ export default function WinPage({incorrectWordsLine1, incorrectWordsLine2, linkW
                     }}
                 />
             </div>
+
+            <div className='win-page-bottom'>
+                <div className='next-puzzle'>
+                    NEXT LINKWORD<br></br>
+                    <div>{countdown[0]}:{countdown[1]}:{countdown[2]}</div>
+                </div>
+
+            <div className='media-sharing'>
+                <div className='react-share-buttons'>
+                    <TwitterShareButton
+                    url="linkwordgame.com"
+                    title={`#LinkWord ${linkWordDay?.toString()}\n🔗\n${checkmark}Line One ${incorrectWordsLine1.length === 0 ? 1 : incorrectWordsLine1.length}/3\n${checkmark2}Line Two ${incorrectWordsLine2.length === 0 ? 1 : incorrectWordsLine2.length}/3\n🔗\n${currentMinutes.toString()}:${currentSeconds.toString()}\n`}
+                    className="a"
+                    >
+                        <TwitterIcon size={windowWidth <= 500 ? 32:  48} round />
+                    </TwitterShareButton>
+
+                    <FacebookShareButton
+                    url="linkwordgame.com"
+                        description={``}
+                    >
+                        <FacebookIcon size={windowWidth <= 500 ? 32:  48} round />
+                    </FacebookShareButton>                    
+                </div>
+
+                <button className='share-button copy-button' onClick={ShareText}>Share<img className='copy-image' src="https://cdn0.iconfinder.com/data/icons/simple-lines-part-3/32/Share_Send_Copy_Publish_Android-512.png" /></button>
+                <button className='copy-button' onClick={CopyText}>Copy<img className='copy-image' src="https://cdn0.iconfinder.com/data/icons/simple-lines-part-3/32/Share_Send_Copy_Publish_Android-512.png" /></button>
+            </div>
+        </div>
         </div>
     )
 }
