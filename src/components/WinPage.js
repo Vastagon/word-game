@@ -112,18 +112,20 @@ export default function WinPage({incorrectWordsLine1, incorrectWordsLine2, linkW
     // console.log(d.substring(0,2))
     // console.log(Math.abs(23 - 22 - 5))
     ///22 is 5pm for us midnight for utc
-    console.log(d)
+    // console.log(parseInt(d.substring(0,2))-5)
 
     let hoursLeft = Math.abs((23 - parseInt(d.substring(0,2) - 5)))
-
-    // let hoursLeft = 23 - parseInt(d.substring(0,2) - 5)
+    // let hoursLeft = Math.abs((23 - 22 - 5))
+    // if(23 - 22 - 5){
+    //     hoursLeft = 10 - hoursLeft
+    // }
 
     if((23 - parseInt(d.substring(0,2) - 5)) < 0){
-        hoursLeft = hoursLeft + 3
+        hoursLeft = 10 - hoursLeft
     }
-    console.log(hoursLeft)
+
     ///if numbers are negative, then error occurs
-    ///error occurs when substring is greater than  
+    ///error occurs when substring is greater than 18
 
 
     let minutesLeft = 59 - parseInt(d.substring(3,5))
@@ -190,7 +192,7 @@ export default function WinPage({incorrectWordsLine1, incorrectWordsLine2, linkW
                         Average Time
                     </div>
                     <div className="stats-element">
-                        {bestMinutes}:{bestSeconds}<br></br>
+                        {localStorageState.maxStreak > 0 ? `${bestMinutes}:${bestSeconds}` : "NaN"}<br></br>
                         Best Time
                     </div>
                 </div>

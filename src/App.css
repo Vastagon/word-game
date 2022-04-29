@@ -183,9 +183,17 @@ button{
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-
 }
+/* .word-border{
+  border-width: 3px;
+  border-color: white;
+  border-style: solid;
+  margin-bottom: 1vh;
+  top: 0;
 
+  margin-top: 1vh;
+
+} */
 .incorrect-word{
   margin: 0;
 }
@@ -437,6 +445,11 @@ button{
   
 }
 @media screen and (max-width: 500px) {
+  .win-page-bottom{
+    padding-bottom: 0px;
+    padding-top: 5%;
+    margin-top: 3rem;
+  }
   .light-keyboard-key{
     background-color: black;
     color: white;

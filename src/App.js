@@ -209,7 +209,10 @@ function App() {
       if(hasLineChanged){
         if(document.getElementById('text-input')){
           document.getElementById('text-input').value = ""
-          setTextInput("")
+          // setTimeout(() =>{
+          //   setTextInput("")
+
+          // }, 300)
         }
       }
     }///Does get set to undefined, but goes back
@@ -231,8 +234,6 @@ function App() {
     }, [flashGreen]) 
 
   useEffect(() =>{
-    console.log(lightTheme)
-
     setGuessingContainer(wordDB?.wordArray.slice(3).map((prev, index) =>{
       return(<CurrentRow lightTheme={lightTheme} flashGreen={flashGreen} flashRed={flashRed} rowChangedState={rowChangedState} setPrevWordArray={setPrevWordArray} onClick2={clickRowTwoFunction} onClick={clickRowOneFunction} clickRowTwo={clickRowTwo} clickRowOne={clickRowOne} key={uuid()} startTimerBoolean={startTimerBoolean} id={index} prevWordArray={prevWordArray} heightCounter={heightCounter} textInput={textInput} className='single-word'></CurrentRow>)
     }))
@@ -240,8 +241,6 @@ function App() {
 
 
   useEffect(() =>{
-    console.log(lightTheme)
-
     setGuessingContainer(wordDB?.wordArray.slice(3).map((prev, index) =>{
       return(<CurrentRow lightTheme={lightTheme} flashGreen={flashGreen} flashRed={flashRed} rowChangedState={rowChangedState} setPrevWordArray={setPrevWordArray} onClick2={clickRowTwoFunction} onClick={clickRowOneFunction} clickRowTwo={clickRowTwo} clickRowOne={clickRowOne} key={uuid()} startTimerBoolean={startTimerBoolean} id={index} prevWordArray={prevWordArray} heightCounter={heightCounter} textInput={textInput} className='single-word'></CurrentRow>)
     }))
@@ -249,8 +248,6 @@ function App() {
 
   useEffect(() =>{
     if(startTimerBoolean){
-      console.log(lightTheme)
-
       setGuessingContainer(wordDB?.wordArray.slice(3).map((prev, index) =>{
         return(<CurrentRow lightTheme={lightTheme} flashGreen={flashGreen} flashRed={flashRed} rowChangedState={rowChangedState} setPrevWordArray={setPrevWordArray} onClick2={clickRowTwoFunction} onClick={clickRowOneFunction} clickRowTwo={clickRowTwo} clickRowOne={clickRowOne} key={uuid()} startTimerBoolean={startTimerBoolean} id={index} prevWordArray={prevWordArray} heightCounter={heightCounter} textInput={textInput} className='single-word'></CurrentRow>)
       }))
@@ -349,6 +346,7 @@ function App() {
             setClickRowTwo(false)
             setFirstRowClicked(true)
             setTextInput("")
+
             hasLineChanged = true
             document.getElementById('text-input').value =""
 
@@ -461,14 +459,20 @@ function App() {
           
 
           if(!hasLineChanged){
-            setTextInput(wordDBChecker[0].substring(0,incorrectWordsLine1.length))
-            document.getElementById('text-input').value = wordDBChecker[0].substring(0,incorrectWordsLine1.length)
+            setTimeout(() =>{
+              setTextInput(wordDBChecker[0].substring(0,incorrectWordsLine1.length))
+              document.getElementById('text-input').value = wordDBChecker[0].substring(0,incorrectWordsLine1.length)
+            }, 300)
+
           }
         }else{
           incorrectWordsLine2.push(textInput)
           if(!hasLineChanged){
-            setTextInput(wordDBChecker[1].substring(0,incorrectWordsLine2.length))
-            document.getElementById('text-input').value = wordDBChecker[1].substring(0,incorrectWordsLine2.length)
+            setTimeout(() =>{
+              setTextInput(wordDBChecker[1].substring(0,incorrectWordsLine2.length))
+              document.getElementById('text-input').value = wordDBChecker[1].substring(0,incorrectWordsLine2.length)
+            }, 300)
+
           }
         }
 
@@ -488,8 +492,10 @@ function App() {
             setClickRowTwo(true)
             setFirstRowClicked(true)
             hasLineChanged = true
+            setTimeout(() =>{
+              setTextInput("")
 
-            setTextInput("")
+            }, 300)
             document.getElementById('text-input').value =""
           }else{
             setClickRowOne(true)
@@ -497,7 +503,11 @@ function App() {
             setFirstRowClicked(true)
             hasLineChanged = true
 
-            setTextInput("")
+            setTimeout(() =>{
+              setTextInput("")
+
+            }, 300)
+
             document.getElementById('text-input').value =""
           }
         }else{
@@ -525,12 +535,20 @@ function App() {
       if(document.getElementById('text-input')){
         document.getElementById('text-input').value = ""
       }
-      setTextInput("")
+      setTimeout(() =>{
+        setTextInput("")
+
+      }, 300)
+
 
       ///Adds a letter each time a guess is incorrect
       if(clickRowOne){
         if(!hasLineChanged){
-        setTextInput(wordDBChecker[0].substring(0,incorrectWordsLine1.length))
+          setTimeout(() =>{
+            setTextInput(wordDBChecker[0].substring(0,incorrectWordsLine1.length))
+
+          }, 300)
+
         if(document.getElementById('text-input')){
           document.getElementById('text-input').value = wordDBChecker[0].substring(0,incorrectWordsLine1.length)
         }
@@ -538,7 +556,11 @@ function App() {
       }
       if(clickRowTwo){
         if(!hasLineChanged){
-          setTextInput(wordDBChecker[1].substring(0,incorrectWordsLine2.length))
+          setTimeout(() =>{
+            setTextInput(wordDBChecker[1].substring(0,incorrectWordsLine2.length))
+
+          }, 300)
+
           if(document.getElementById('text-input')){
             document.getElementById('text-input').value = wordDBChecker[1].substring(0,incorrectWordsLine2.length)
           }
