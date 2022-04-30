@@ -421,20 +421,26 @@ button{
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    margin-top: 7%;
+    margin-top: 3%;
   }
   .keyboard-key{
-    width: 4.2vh;
-    height: 4.2vh;
-    line-height: 4.2vh;
+    width: 6vh;
+    height: 100%;
+    line-height: 8vh;
     padding: 0;
     margin-left: 6px;
     font-size: .8rem;
   }
   .special-keyboard{
-    height: 4.2vh !important;
-    width: 6vh !important;
+    height: 8vh !important;
+    width: 10vh !important;
     font-size: .8rem !important;
+  }
+  .bi{
+    vertical-align:top;
+  }
+  svg{
+    padding-top: 25%;
   }
   .words-container{
     margin-top: 20%;
@@ -484,7 +490,7 @@ button{
     margin-top: 0;
   }
   .keyboard-row{
-    margin-top: 5%;
+    margin-top: 3%;
   }
   .nav-right{
     right: 4%;
@@ -493,16 +499,16 @@ button{
     margin-top: 40%;
   }
   .keyboard-key{
-    width: 3.7vh;
-    height: 3.7vh;
-    line-height: 3.7vh;
+    width: 6vh;
+    height: 7vh;
+    line-height: 7vh;
     padding: 0;
     margin-left: 6px;
     font-size: .8rem;
   }
   .special-keyboard{
-    height: 3.7vh !important;
-    width: 6vh !important;
+    height: 7vh !important;
+    width: 8vh !important;
     font-size: .8rem !important;
   }
   .single-word{
@@ -514,7 +520,7 @@ button{
   }
   .timer-and-button{
     left: 35%;
-    top: 8%;
+    top: 6%;
     width: 30%;  
   }
   .start-button{
@@ -564,7 +570,7 @@ button{
     right: 12%;
   }
 }
-@media screen and (max-width: 350px) {
+@media screen and (max-width: 380px) {
   .media-sharing{
     right: 15%;
   }
@@ -575,16 +581,19 @@ button{
     margin-top: 40%;
   }
   .keyboard-key{
-    width: 3vh;
-    height: 3vh;
-    line-height: 3vh;
+    width: 4.5vh;
+    height: 5.5vh;
+    line-height: 5.5vh;
     margin-left: 6px;
     font-size: .8rem;
   }
   .special-keyboard{
-    height: 3vh !important;
-    width: 5vh !important;
+    height: 5.5vh !important;
+    width: 6.5vh !important;
     font-size: .8rem !important;
+  }
+  .bi{
+    padding-top: 21%;
   }
   .timer{
     font-size: 2rem;
