@@ -4,12 +4,16 @@ import { TwitterIcon, TwitterShareButton, FacebookIcon, FacebookShareButton } fr
 import "../HowToPlay.css"
 import {useEffect, useState} from "react"
 
+const { DateTime } = require("luxon");
+
 Chart.register(...registerables);
 
 
 export default function WinPage({incorrectWordsLine1, incorrectWordsLine2, linkWordDay, setShowWinPage, localStorageState}){
+
     let windowWidth = window.innerWidth
     const [time, setTime] = useState(Date.now());
+    // const [countdown, setCountdown] = useState([])
 
     let checkmark = "✅"
     if(incorrectWordsLine1.length === 3){
@@ -28,11 +32,11 @@ export default function WinPage({incorrectWordsLine1, incorrectWordsLine2, linkW
 
     useEffect(() => {
         const interval = setInterval(() => setTime(Date.now()), 1000);
+
         return () => {
           clearInterval(interval);
         };
       }, []);
-
 
     let seconds = Math.floor((localStorageState?.averageTime / 1000) % 60)
     if(seconds < 10){
@@ -80,7 +84,7 @@ export default function WinPage({incorrectWordsLine1, incorrectWordsLine2, linkW
     }  
 
     ///Fixes time for countdown to new puzzle
-    function fixShownTime(hours, functionMinutes, functionSeconds){
+    function fixShownTime( functionMinutes, functionSeconds){
         if(functionSeconds < 10){
             functionSeconds = "0" + functionSeconds
         }
@@ -92,14 +96,14 @@ export default function WinPage({incorrectWordsLine1, incorrectWordsLine2, linkW
                 functionMinutes = "0" + functionMinutes
             }
         }  
-        if(hours < 10){
-            if(hours === 0){
-                hours = "00"
-            }else{
-                hours = "0" + hours
-            }
-        }  
-        return [hours, functionMinutes, functionSeconds]
+        // if(hours < 10){
+        //     if(hours === 0){
+        //         hours = "00"
+        //     }else{
+        //         hours = "0" + hours
+        //     }
+        // }  
+        return [functionMinutes, functionSeconds]
     }
     
     ///Gets date
@@ -108,31 +112,27 @@ export default function WinPage({incorrectWordsLine1, incorrectWordsLine2, linkW
     ///Makes d a string and gets the hours, minutes, and seconds
     d = (d.toString(d))
     d = (d.substring(17,25))
+    // const [rezoned, setRezoned] = useState()
 
-    // console.log(d.substring(0,2))
-    // console.log(Math.abs(23 - 22 - 5))
-    ///22 is 5pm for us midnight for utc
-    // console.log(parseInt(d.substring(0,2))-5)
+    let local = DateTime.local()
+    let rezoned = local.setZone("America/Bogota")
+    
 
-    let hoursLeft = Math.abs((23 - parseInt(d.substring(0,2) - 5)))
-    // let hoursLeft = Math.abs((23 - 22 - 5))
-    // if(23 - 22 - 5){
-    //     hoursLeft = 10 - hoursLeft
-    // }
-
-    if((23 - parseInt(d.substring(0,2) - 5)) < 0){
-        hoursLeft = 10 - hoursLeft
-    }
-
-    ///if numbers are negative, then error occurs
-    ///error occurs when substring is greater than 18
-
-
+    let hoursLeft = 23 - rezoned?.c.hour
     let minutesLeft = 59 - parseInt(d.substring(3,5))
     let secondsLeft = 59 - parseInt(d.substring(6,8))
 
     ///String copied when the copy button is pressed
     let shareString = `#LinkWord ${linkWordDay?.toString()}\n🔗\n${checkmark}Line One ${incorrectWordsLine1.length === 0 ? 1 : incorrectWordsLine1.length}/3\n${checkmark2}Line Two ${incorrectWordsLine2.length === 0 ? 1 : incorrectWordsLine2.length}/3\n🔗\n${currentMinutes.toString()}:${currentSeconds.toString()}\n`
+
+
+    // useEffect(() =>{
+    //     let local = DateTime.local();
+        
+    
+    //     setRezoned(local.setZone("America/Bogota"))
+
+    // }, [secondsLeft])
 
     function ShareText(){
         if (navigator.share) {
@@ -150,6 +150,8 @@ export default function WinPage({incorrectWordsLine1, incorrectWordsLine2, linkW
             });
         }            
     }
+
+
     async function CopyText(){
         await navigator.clipboard.writeText(shareString)
         alert("Copied Results to Clipboard")
@@ -159,9 +161,8 @@ export default function WinPage({incorrectWordsLine1, incorrectWordsLine2, linkW
         setShowWinPage(false)
     }
 
-    let countdown = fixShownTime(hoursLeft, minutesLeft, secondsLeft)
+    let countdown = fixShownTime(minutesLeft, secondsLeft)
 
-///localStorage.wordLinkHasWonToday === JSON.stringify(wordDB?.wordArray) for if statement
     return(
         <div className="win-page">
             <div onClick={removePage} className='cross'></div>
@@ -280,7 +281,7 @@ export default function WinPage({incorrectWordsLine1, incorrectWordsLine2, linkW
             <div className='win-page-bottom'>
                 <div className='next-puzzle'>
                     NEXT LINKWORD<br></br>
-                    <div>{countdown[0]}:{countdown[1]}:{countdown[2]}</div>
+                    <div>{hoursLeft}:{countdown[0]}:{countdown[1]}</div>
                 </div>
 
             <div className='media-sharing'>
@@ -304,6 +305,7 @@ export default function WinPage({incorrectWordsLine1, incorrectWordsLine2, linkW
                 <button className='share-button copy-button' onClick={ShareText}>Share<img className='copy-image' src="https://cdn0.iconfinder.com/data/icons/simple-lines-part-3/32/Share_Send_Copy_Publish_Android-512.png" /></button>
                 <button className='copy-button' onClick={CopyText}>Copy<img className='copy-image' src="https://cdn0.iconfinder.com/data/icons/simple-lines-part-3/32/Share_Send_Copy_Publish_Android-512.png" /></button>
             </div>
+
         </div>
         </div>
     )

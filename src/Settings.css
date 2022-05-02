@@ -73,7 +73,7 @@ h4{
     width: 1.2em;
     height: 1.2em;
     left: 10%;
-    bottom: .00em;
+    bottom: .1em;
     background-color: black;
     transition: .4s;
     border-radius: 1.2em;
@@ -96,7 +96,7 @@ h4{
     background-color: black
   }
   input:checked + .slider:before{
-    transform: translateX(140%);
+    transform: translateX(155%);
   }
 
 
@@ -140,7 +140,7 @@ h4{
     }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 920px) {
     @-webkit-keyframes settings-fade-in {
         from{
             top: 40%;
@@ -152,7 +152,11 @@ h4{
             opacity: 1;
         }
     }
-    
+    .slider:before{
+        width: 1.4em;
+        height: 1.4em;    
+        bottom: .4em;
+    }
     .settings{
         position: fixed;
         width: 60%;
@@ -160,18 +164,38 @@ h4{
         height: 35%;
         top: 30%;
     }
+    input:checked + .slider:before{
+        transform: translateX(110%);
+    }
     .feedback, .community{
         font-size: 1.1rem;
+    }
+}
+@media screen and (max-width: 770px) {
+    .slider:before{
+        width: 1.4em;
+        height: 1.4em;    
+        bottom: .3em;
+    }
+}
+@media screen and (max-width: 540px) {
+    .slider:before{
+        width: .9em;
+        height: .9em;    
+        bottom: .225em;
+    }
+    input:checked + .slider:before{
+        transform: translateX(220%);
     }
 }
 @media screen and (max-width: 500px) {
     @keyframes settings-fade-in {
         from{
-            top: 20%;
+            top: 30%;
             opacity: 0;
         }
         to{
-            top: 10%;
+            top: 20%;
             opacity: 1;
         }
     }
@@ -182,9 +206,9 @@ h4{
         font-size: 1rem;
     }
     .slider:before{
-        width: .8em;
-        height: .8em;    
-        bottom: .0em;
+        width: 1em;
+        height: 1em;    
+        bottom: .4em;
     }
     .slider{
         cursor: pointer;
@@ -200,15 +224,20 @@ h4{
         width: 70%;
         left: 15%;
         height: 40%;
-        top: 10%;
+        top: 20%;
     }
     input:checked + .slider:before{
-        transform: translateX(200%);
+        transform: translateX(140%);
     }
 }
-@media screen and (max-width: 350px) {
+@media screen and (max-width: 375px) {
     .feedback, .community{
         font-size: .9rem;
+    }
+    .slider:before{
+        width: 1em;
+        height: 1em;    
+        bottom: .2em;
     }
 }
 

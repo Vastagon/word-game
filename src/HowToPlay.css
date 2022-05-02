@@ -67,17 +67,17 @@
 @media screen and (max-width: 550px) {
     @keyframes howtoplay-fade-in {
         from{
-            top: 20%;
+            top: 25%;
             opacity: 0;
         }
         to{
-            top: 10%;
+            top: 15%;
             opacity: 1;
         }
     }
     .how-to-play{
         width: 80%;
-        top: 10%;
+        top: 15%;
         height: 30rem;
         padding-left: 5%;
         padding-right: 5%;
