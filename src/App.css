@@ -422,18 +422,23 @@ button{
     justify-content: center;
     flex-direction: column;
     margin-top: 3%;
+    margin-right: 2.5vw;
   }
+  
   .keyboard-key{
-    width: 6vh;
-    height: 100%;
-    line-height: 8vh;
+    /* width: 6vh; */
+    height: 6vh;
+    line-height: 6vh;
     padding: 0;
     margin-left: 6px;
     font-size: .8rem;
+
+    width: 4vh;
+
   }
   .special-keyboard{
-    height: 8vh !important;
-    width: 10vh !important;
+    height: 6vh !important;
+    width: 6vhvh !important;
     font-size: .8rem !important;
   }
   .bi{
@@ -499,16 +504,16 @@ button{
     margin-top: 40%;
   }
   .keyboard-key{
-    width: 6vh;
-    height: 7vh;
-    line-height: 7vh;
+    width: 3.8vh;
+    height: 6vh;
+    line-height: 6vh;
     padding: 0;
     margin-left: 6px;
     font-size: .8rem;
   }
   .special-keyboard{
-    height: 7vh !important;
-    width: 8vh !important;
+    height: 6vh !important;
+    width: 6vh !important;
     font-size: .8rem !important;
   }
   .single-word{
@@ -561,13 +566,42 @@ button{
   }
 
 }
-@media screen and (max-width: 380px) {
+
+@media screen and (max-width: 450px) {
+  .keyboard-key{
+    width: 3.6vh;
+    height: 6vh;
+    line-height: 6vh;
+    padding: 0;
+    margin-left: 6px;
+    font-size: .8rem;
+  }
+  .special-keyboard{
+    height: 6vh !important;
+    width: 5vh !important;
+    font-size: .8rem !important;
+  }
+}
+@media screen and (max-width: 400px) {
   .light-keyboard-key{
     background-color: black;
     color: white;
   }
   .media-sharing{
     right: 12%;
+  }
+  .keyboard-key{
+    width: 3.5vh;
+    height: 6vh;
+    line-height: 6vh;
+    padding: 0;
+    margin-left: 6px;
+    font-size: .8rem;
+  }
+  .special-keyboard{
+    height: 6vh !important;
+    width: 6vh !important;
+    font-size: .8rem !important;
   }
 }
 @media screen and (max-width: 380px) {
@@ -581,15 +615,16 @@ button{
     margin-top: 40%;
   }
   .keyboard-key{
-    width: 4.5vh;
-    height: 5.5vh;
-    line-height: 5.5vh;
+    width: 3.8vh;
+    height: 6vh;
+    line-height: 6vh;
+    padding: 0;
     margin-left: 6px;
     font-size: .8rem;
   }
   .special-keyboard{
-    height: 5.5vh !important;
-    width: 6.5vh !important;
+    height: 6vh !important;
+    width: 6vh !important;
     font-size: .8rem !important;
   }
   .bi{
